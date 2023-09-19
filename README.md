@@ -2,12 +2,11 @@
 
 # Painter.IO
 
-<table align="center" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
-    <tr>
-        <td style="border: none;"><img src="Assets/logo.png" alt="Painter.IO Logo" width="400"/></td>
-        <td style="border: none;"><img src="Assets/Painter.IO.2.jpg" alt="Painter.IO Logo" width="400"/></td>
-    </tr>
-</table>
+<div align="center">
+  <img src="https://github.com/vas-byte/OOPProject/blob/0442dfc65b8079e400c5a361b895f438005a4cb6/Assets/logo.png" width="45%">
+  <img src="https://github.com/vas-byte/OOPProject/blob/ab3c054a29b219791a31f34d0cd6b8335187a556/Assets/Painter.IO.2.png" width="45%">
+</div>
+
 
 </p>
 
