@@ -1,6 +1,6 @@
 # Painter.IO
 
-![Painter.IO Logo](path_to_logo.png) 
+![Painter.IO Logo](Assets/logo.png) 
 
 Painter.IO is an engaging open-world paintball game developed using Unreal Engine. Dive into the colorful world of paintball, where players can buy equipment, engage in thrilling battles, evolve their skills, and strategically build their inventory to beat opponents.
 
