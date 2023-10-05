@@ -6,6 +6,11 @@
         pistol = 400,
         rapid = 100,
     };
+
+    enum selectedGun{
+        primary = 0,
+        secondary = 1
+    };
     
     namespace movement{
 

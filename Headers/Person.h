@@ -20,6 +20,7 @@ class Person : public Object {
         sf::Texture texture;
         Game* game;
         sf::Clock clock;
+        int selectedGun;
         
     public:
         Person(Game* thisGame);

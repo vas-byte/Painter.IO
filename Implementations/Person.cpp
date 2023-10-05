@@ -11,8 +11,9 @@ Person::Person(Game* thisGame){
     sprite.setOrigin(sf::Vector2f(24.f, 24.f));
     id = "test"; //TODO: Make random UUID
     game = thisGame;
-    gun_inventory[0] = Gun();
+    gun_inventory[primary] = Gun();
     health = 100;
+    selectedGun = primary;
 };
 
 void Person::setMovement(movement::Direction direction){
@@ -42,11 +43,11 @@ void Person::setMovement(movement::Direction direction){
 }
 
 void Person::attack(){ 
-    if(clock.getElapsedTime().asMilliseconds() > 400.f && gun_inventory[0].get_ammo() > 0){
+    if(clock.getElapsedTime().asMilliseconds() > 400.f && gun_inventory[selectedGun].get_ammo() > 0){
           Bullet* bullet = new Bullet(&sprite); //TODO: Fix shooting
           game->set_bullet(bullet);
           clock.restart();
-          gun_inventory[0].shoot();
+          gun_inventory[selectedGun].shoot();
     }
   
 };

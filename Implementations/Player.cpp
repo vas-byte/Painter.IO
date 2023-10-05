@@ -30,7 +30,7 @@ void Player::showHealth(sf::RenderWindow& app) {
 }
 
 void Player::showAmmo(sf::RenderWindow& app) {
-  ammoText = sf::Text(std::to_string(gun_inventory[0].get_ammo()), font, 20);
+  ammoText = sf::Text(std::to_string(gun_inventory[selectedGun].get_ammo()), font, 20);
   ammoText.setPosition(game->get_width() - 150, 0 + 20);
   app.draw(ammoText);
   app.draw(bsprite);
