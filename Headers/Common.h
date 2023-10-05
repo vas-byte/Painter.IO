@@ -1,6 +1,11 @@
 #ifndef COMMON_H
 #define COMMON_H
-
+    
+    //Defines fire rate of gun based off time restriction for calling attack()
+    enum fireRate{
+        pistol = 400,
+        rapid = 100,
+    };
     
     namespace movement{
 

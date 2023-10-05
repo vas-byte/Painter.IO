@@ -1,32 +1,35 @@
 #ifndef PERSON_H
 #define PERSON_H
-    
+
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 #include "Object.h"
 #include "Common.h"
+#include "Bullet.h"
+#include "Game.h"
+#include "Gun.h"
 
-class Person : Object {
+class Person : public Object {
     protected:
         int health;
-        bool shoot;
+        std::array<Gun, 2> gun_inventory;
         float xDelta;
         float yDelta;
         float Rot;
-     
         sf::Sprite sprite;
         sf::Texture texture;
-        sf::Texture bTexture;
-        sf::Sprite bullet;
-        sf::Vector2f bulletDirection;
-    
+        Game* game;
+        sf::Clock clock;
+        
     public:
-        Person();
+        Person(Game* thisGame);
         void attack();
         int get_health();
         sf::Sprite move();
         void setMovement(movement::Direction direction);
-        sf::Sprite shootBullet();
-        bool showBullet();
+        
 };
 
 #endif
+
+//TODO create player class which outputs ammo and health

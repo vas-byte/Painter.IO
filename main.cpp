@@ -1,10 +1,14 @@
 #include <SFML/Graphics.hpp>
-#include "Headers/Game.h"
+#include <iostream>
+#include "Headers/Player.h"
+#include "Headers/Bullet.h"
 #include "Headers/Common.h"
+#include "Headers/Game.h"
+
 
 int main() {
   Game game;
-  Person player;
+  Player player(&game);
 
   // create the window
   sf::RenderWindow window(sf::VideoMode(game.get_width(), game.get_height()), "Painter.IO");
@@ -19,30 +23,27 @@ int main() {
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        player.setMovement(movement::left);
+      player.setMovement(movement::left);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        player.setMovement(movement::right);
+      player.setMovement(movement::right);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        player.setMovement(movement::up);
+      player.setMovement(movement::up);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        player.setMovement(movement::down);
+      player.setMovement(movement::down);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-        player.attack();
+     player.attack();
     }
 
     window.clear();
     window.draw(game.get_map());
     window.draw(player.move());
-
-    if(player.showBullet())
-        window.draw(player.shootBullet());
-
-    
-
+    game.show_bullet(window);
+    player.showAmmo(window);
+    player.showHealth(window);
     window.display();
   }
 
