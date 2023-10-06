@@ -22,14 +22,14 @@ class Person : public Object {  // Use 'public' inheritance
     public:
         Person();
         
-        virtual void attack();       // Make these methods virtual so they can be overridden
-        virtual void update() = 0;   // Pure virtual function. This means all derived classes MUST provide an implementation.
-        virtual int get_health();    // If you think the way of retrieving health might differ among bots, make this virtual
+        virtual void attack();       // methods virtual so they can be overridden
+        virtual void update() = 0;  
+        virtual int get_health();   
         virtual sf::Sprite move();   // Movement behavior will be different for bots, so this is virtual
-        virtual sf::Sprite shootBullet();  // Shooting behavior differs among bots
+        virtual sf::Sprite shootBullet();  // shootnign behavior differs among bots
         virtual bool showBullet();
 
-        void setMovement(movement::Direction direction);  // This might remain common for all, but can be made virtual if needed
+        void setMovement(movement::Direction direction);  
 };
 
 #endif
