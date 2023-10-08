@@ -15,6 +15,7 @@ class Game{
     
     public:
         Game();
+        ~Game();
         int get_width();
         int get_height();
         int generate_id();

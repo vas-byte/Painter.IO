@@ -1,7 +1,40 @@
 #include "../Headers/tileMap.h"
+#include <fstream>
+#include <nlohmann/json.hpp>
+#include <vector>
 
-bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height)
+void TileMap::load_tileMap(){
+    //init JSON object
+    nlohmann::json j;
+    std::ifstream ifs("State/map.json");
+
+    //open JSON file
+    if (!ifs.is_open())
+        {
+            //return false;;
+        }
+
+    //Write file to JSON object
+    ifs >> j;
+
+    //Close file IO
+    ifs.close();
+
+    //index in array for map (tile indicies)
+    int i = 0;
+
+    //Loads map from JSON file with list of tile indices
+    for (int elem : j["map"]){
+        tileMap[i] = elem;
+        i++;
+    }
+}
+
+bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, unsigned int width, unsigned int height)
 {
+    //Load tileset arrangement into array
+    load_tileMap();
+
     // load the tileset texture
     if (!m_tileset.loadFromFile(tileset))
         return false;
@@ -15,7 +48,7 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
         for (unsigned int j = 0; j < height; ++j)
         {
             // get the current tile number
-            int tileNumber = tiles[i + j * width];
+            int tileNumber = tileMap[i + j * width];
 
             // find its position in the tileset texture
             int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);
@@ -54,4 +87,7 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_vertices, states);
 }
 
-   
+//Gets an array of map features
+std::vector<tileFeature*> TileMap::get_mapFeatures(){
+
+}

@@ -2,45 +2,28 @@
 #include <iostream>
 #include <vector>
 #include "../Headers/Bullet.h"
-#include <fstream>
-#include <nlohmann/json.hpp>
 
+//Default constructor for game
 Game::Game() {
   width = 1440;
   height = 800;
   map = TileMap();
 
   obj_id = 0;
-
-  //init JSON object
-  nlohmann::json j;
-  std::ifstream ifs("State/map.json");
-
-  //open JSON file
-  if (!ifs.is_open())
-    {
-        //return false;;
-    }
-
-  //Write file to JSON object
-  ifs >> j;
-
-  //Close file IO
-  ifs.close();
-
-  // define the level with an array of tile indices
-  int level[4500];
-
-  //index in array for map (tile indicies)
-  int i = 0;
-
-  //Loads map from JSON file with list of tile indices
-  for (int elem : j["map"]){
-    level[i] = elem;
-    i++;
-  }
       
-  map.load("Assets/Tileset.png", sf::Vector2u(16, 16), level, 90, 50);
+  //Load game map
+  map.load("Assets/Tileset.png", sf::Vector2u(16, 16), 90, 50);
+}
+
+//Default destructor for game
+Game::~Game(){
+
+  //clear any dynamically allocated memory for bullets
+  for (int i = 0; i < bullets.size(); i++) {
+    delete bullets.at(i);
+  }
+
+
 }
 
 //Returns display size

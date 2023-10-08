@@ -2,9 +2,16 @@
 #define TILEMAP_H
 
 #include <SFML/Graphics.hpp>
-
+#include "tileFeature.h"
+#include <vector>
 class TileMap : public sf::Drawable, public sf::Transformable{
     private:
+
+        int tileMap[4500];
+
+        //Load tiles from JSON file
+        void load_tileMap();
+
         //Draw Map
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -16,8 +23,10 @@ class TileMap : public sf::Drawable, public sf::Transformable{
         
     public:
         //Load Tileset
-        bool load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height);
+        bool load(const std::string& tileset, sf::Vector2u tileSize, unsigned int width, unsigned int height);
 
+        //Get Map Features
+        std::vector<tileFeature*> get_mapFeatures();
 };
 
 #endif

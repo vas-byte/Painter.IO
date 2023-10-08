@@ -5,7 +5,7 @@
 
 class Object{
     protected:
-        bool takesDamage;
+        bool passthrough;
         int id;
     public:
         int get_id();

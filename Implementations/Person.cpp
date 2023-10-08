@@ -11,6 +11,7 @@ Person::Person(Game* thisGame){
     sprite.setPosition(110,110);
     game = thisGame;
     id = game->generate_id(); //TODO: Make random UUID
+    passthrough = false;
     gun_inventory[primary] = Gun(true, pistol, game->generate_id());
     health = 100;
     selectedGun = primary;
