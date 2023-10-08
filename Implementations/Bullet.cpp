@@ -8,8 +8,10 @@ Bullet::Bullet(sf::Sprite* sprite){
     setPosition(sprite);
 }
 
+//Sets position of bullet (from shooting position) for rendering
 void Bullet::setPosition(sf::Sprite* sprite){
-   
+    
+    std::cout << sprite->getRotation() << std::endl;
 
     //Down
     if(sprite->getRotation() == 90.f){
@@ -26,8 +28,8 @@ void Bullet::setPosition(sf::Sprite* sprite){
         bullet.setPosition(sprite->getPosition().x-30, sprite->getPosition().y-7.5f);
         bulletDirection = sf::Vector2f(-2.f,0.f);
 
-    //Right
-    } else if(sprite->getRotation() == 0.f){
+    //Right - note game engine does not represent sprite angle as 0 when it first loads hence <1
+    } else if(sprite->getRotation() == 0.f || sprite->getRotation() < 1.f){
         bulletDirection = sf::Vector2f(2.f,0.f);
         bullet.setPosition(sprite->getPosition().x+13, sprite->getPosition().y-7.5f);
     }
@@ -36,6 +38,8 @@ void Bullet::setPosition(sf::Sprite* sprite){
 sf::Sprite Bullet::shootBullet(){
    
     bullet.move(bulletDirection);
+    // std::cout << "Pos" << bullet.getPosition().x << " " << bullet.getPosition().y << std::endl;
+    // std::cout << "Direction" << bulletDirection.x << " " << bulletDirection.y << std::endl;
     return bullet;
     
 }

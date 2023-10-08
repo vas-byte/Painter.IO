@@ -9,8 +9,7 @@ class Collectable : public Object{
         sf::Vector2f position;
         bool isCollected;
     public:
-        Collectable(bool isCollected);
-        Collectable();
+        Collectable(int id, bool isCollected);
 };
 
 #endif

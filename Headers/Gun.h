@@ -12,10 +12,11 @@ class Gun : public Collectable{
         int damage;
     
     public:
+        Gun(bool isCollected, int fr, int id);
         Gun();
-        Gun(bool isCollected, int fr);
         int get_ammo();
         int get_damage();
+        float get_rate();
         void shoot();
 };
 

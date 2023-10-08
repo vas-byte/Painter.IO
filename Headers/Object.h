@@ -6,9 +6,9 @@
 class Object{
     protected:
         bool takesDamage;
-        std::string id;
+        int id;
     public:
-        std::string get_id();
+        int get_id();
 };
 
 #endif

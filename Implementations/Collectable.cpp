@@ -1,14 +1,9 @@
 #include "../Headers/Collectable.h"
 #include <SFML/Graphics.hpp>
 
-Collectable::Collectable(bool isCollected){
-    id="an ID";
+Collectable::Collectable(int id, bool isCollected){
+    this->id=id;
     this->isCollected = isCollected;
     position = sf::Vector2f(0,0);
 }
 
-Collectable::Collectable(){
-    id="an ID";
-    isCollected = false;
-    position = sf::Vector2f(0,0);
-}

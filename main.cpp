@@ -7,7 +7,10 @@
 
 
 int main() {
+  //Create game instance
   Game game;
+
+  //Create instance of player (human)
   Player player(&game);
 
   // create the window
@@ -22,6 +25,7 @@ int main() {
       }
     }
 
+    //Listen for keyboard input
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
       player.setMovement(movement::left);
     }
@@ -38,12 +42,21 @@ int main() {
      player.attack();
     }
 
+    //Clear previous frame
     window.clear();
+
+    //Render map
     window.draw(game.get_map());
+
+    //Render player movement and HUD
     window.draw(player.move());
-    game.show_bullet(window);
     player.showAmmo(window);
     player.showHealth(window);
+
+    //Render bullets & bot movement
+    game.show_bullet(window);
+    
+    //Show new frame
     window.display();
   }
 

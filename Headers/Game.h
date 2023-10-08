@@ -11,11 +11,13 @@ class Game{
         int height;
         TileMap map;
         std::vector<Bullet*> bullets;
+        int obj_id;
     
     public:
         Game();
         int get_width();
         int get_height();
+        int generate_id();
         TileMap get_map();
         void set_bullet(Bullet* bullet);
         void show_bullet(sf::RenderWindow &app);
