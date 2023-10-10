@@ -3,7 +3,7 @@
     
     #include <math.h>
 
-    float calculateAngleBetweenVectors(float playerX, float playerY, float objX, float objY);
+   
 
     //Defines fire rate of gun based off time restriction for calling attack()
     enum fireRate{
@@ -26,6 +26,10 @@
             right = 3,
         };
 
+        //Converts keyboard input direction (up, down left, right) into
+        //angle faced by sprite
+        
+
     }
     
     namespace angle{
@@ -39,5 +43,7 @@
         };
 
     }
+
+    float direction_to_angle(movement::Direction direction);
 
 #endif

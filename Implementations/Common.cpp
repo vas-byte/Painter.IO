@@ -1,18 +1,18 @@
 #include "../Headers/Common.h"
 
-float calculateAngleBetweenVectors(float playerX, float playerY, float objX, float objY){
-        // Calculate the dot product of the two vectors.
-        float dotProduct = playerX * objX + playerY * objY;
+ float direction_to_angle(movement::Direction direction){
+    switch (direction)
+    {
+        case movement::right:
+            return angle::right;
+        
+        case movement::down:
+            return angle::down;
 
-        // Calculate the magnitude of the two vectors.
-        float magnitude1 = sqrt(playerX * playerX + playerY * playerY);
-        float magnitude2 = sqrt(objX * objX + objY * objY);
+        case movement::left:
+            return angle::left;
 
-        // Calculate the angle between the two vectors.
-        float angle = acos(dotProduct / (magnitude1 * magnitude2));
-
-        // Convert the angle from radians to degrees.
-        angle *= 180 / M_PI;
-
-        return angle;
+        case movement::up:
+            return angle::up;
     }
+ }

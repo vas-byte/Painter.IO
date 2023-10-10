@@ -111,19 +111,19 @@ void Game::renderPlayer(sf::RenderWindow &app){
 //Checks if player is close to any tiles
 bool Game::detectCollision(Object* obj){
   if(human->get_rotation() == 0.f || human->get_rotation() == 360.f){
-      if(abs(human->get_x() - obj->get_bounds().getPosition().x + 24) < 5 &&  abs(human->get_y() - obj->get_bounds().getPosition().y) < 10)
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x + 24) < 5 &&  abs(human->get_y() - obj->get_bounds().getPosition().y) < 14)
         return true;
 
     } else if (human->get_rotation() == 90.f){
-      if(abs(human->get_x() - obj->get_bounds().getPosition().x) < 10 &&  abs(human->get_y() - obj->get_bounds().getPosition().y + 24) < 5)
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x) < 14 &&  abs(human->get_y() - obj->get_bounds().getPosition().y + 24) < 5)
         return true;
 
     } else if (human->get_rotation() == 180.f){
-      if(abs(human->get_x() - obj->get_bounds().getPosition().x - 24) < 15 &&  abs(human->get_y() - obj->get_bounds().getPosition().y) < 11)
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x - 24) < 15 &&  abs(human->get_y() - obj->get_bounds().getPosition().y) < 17)
         return true;
 
     } else if (human->get_rotation() == 270.f){
-      if(abs(human->get_x() - obj->get_bounds().getPosition().x) < 11 &&  abs(human->get_y() - obj->get_bounds().getPosition().y - 24) < 15)   
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x) < 17 &&  abs(human->get_y() - obj->get_bounds().getPosition().y - 24) < 15)   
         return true;
     }
 }
@@ -131,31 +131,15 @@ bool Game::detectCollision(Object* obj){
 //Checks if player will collide with object
 bool Game::checkCollision(movement::Direction direction){
   
-  sf::FloatRect player_pos = human->get_bounds();
 
-  int rot = 0;
-
-    switch(direction){
-        case movement::up:
-            rot=angle::up;
-            break;
-        case movement::down:
-            rot=angle::down;
-            break;
-        case movement::left:
-            rot=angle::left; 
-            break;
-        case movement::right:
-            rot=angle::right;
-            break;
-    }
+  int next_rot = direction_to_angle(direction);
 
   for(int i = 0; i < 91; i++){
 
     if(isCollided){
       for(int i = 0; i < 91; i++){
 
-        //human->get_bounds().contains(map_objects[i]->get_bounds().getPosition())
+        
         if(detectCollision(map_objects[i])){
           isCollided = true;
           break;
@@ -164,7 +148,7 @@ bool Game::checkCollision(movement::Direction direction){
         }
       }
 
-      if(prev_dir != rot){
+      if(prev_dir != next_rot){
         return false;
       } else {
         return true;
