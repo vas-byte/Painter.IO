@@ -33,7 +33,7 @@ class Person {
         sf::Texture texture;
             
     public:
-        Person(int id);
+        Person(int id, float x, float y);
 
         //Attack methods
         Bullet* attack();

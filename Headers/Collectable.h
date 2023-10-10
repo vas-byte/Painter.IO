@@ -10,6 +10,7 @@ class Collectable : public Object{
         float y;
         bool isCollected;
         sf::RectangleShape rectangle;
+        sf::Texture recttexture;
         
     public:
         Collectable(int id, bool isCollected);
@@ -17,6 +18,8 @@ class Collectable : public Object{
         float get_x();
         float get_y();
         sf::RectangleShape get_bounds();
+        void render(sf::RenderWindow& app);
+        bool get_collected_status();
 };
 
 #endif

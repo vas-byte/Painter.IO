@@ -3,11 +3,11 @@
 #include "../Headers/Bullet.h"
 #include "../Headers/Gun.h"
 
-Person::Person(int id){
+Person::Person(int id, float x, float y){
     texture.loadFromFile("Assets/Individual Animations/Handgun1.png");
     sprite.setTexture(texture);
     sprite.setOrigin(sf::Vector2f(24.f, 24.f));
-    sprite.setPosition(110,110);
+    sprite.setPosition(x,y);
     gun_inventory[primary] = Gun(true, pistol, id);
     health = 100;
     selectedGun = primary;

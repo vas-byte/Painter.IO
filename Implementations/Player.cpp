@@ -3,7 +3,7 @@
 #include <string>
 
 
-Player::Player(int width, int height, int id) : Person(id) {
+Player::Player(int width, int height, float x, float y, int id) : Person(id, x, y) {
   //Load font for HUD text
   font.loadFromFile("Assets/Fonts/arial.ttf");
 
@@ -23,7 +23,7 @@ Player::Player(int width, int height, int id) : Person(id) {
 }
 
 // Default constructor for player (never used)
-Player::Player() : Person(-1) {
+Player::Player() : Person(-1,110,110) {
   //Load font for HUD text
   font.loadFromFile("Assets/Fonts/arial.ttf");
 
@@ -45,7 +45,7 @@ Player::Player() : Person(-1) {
 //Used to update health in the HUD
 void Player::showHealth(sf::RenderWindow& app, int width, int height) {
   healthText = sf::Text(std::to_string(health), font, 20);
-  healthText.setPosition(width - 80, 0 + 20);
+  healthText.setPosition(width - 85, 0 + 20);
   app.draw(healthText);
   app.draw(hsprite);
 }
@@ -53,7 +53,7 @@ void Player::showHealth(sf::RenderWindow& app, int width, int height) {
 //Used to update ammo count in HUD
 void Player::showAmmo(sf::RenderWindow& app, int width, int height) {
   ammoText = sf::Text(std::to_string(gun_inventory[selectedGun].get_ammo()), font, 20);
-  ammoText.setPosition(width - 150, 0 + 20);
+  ammoText.setPosition(width - 155, 0 + 20);
   app.draw(ammoText);
   app.draw(bsprite);
 }

@@ -23,7 +23,7 @@ class Player : public Person{
 
 
     public:
-        Player(int width, int height, int id);
+        Player(int width, int height, float x, float y, int id);
         Player();
 
         //Methods used to display HUD stuff

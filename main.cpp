@@ -46,11 +46,14 @@ int main() {
     //Render map
     window.draw(game.get_map());
 
+    //render collectable objects
+    game.render_objects(window);
+
+    //Render bullets
+    game.show_bullet(window);
+
     //Render player movement and HUD
     game.renderPlayer(window);
-
-    //Render bullets & bot movement
-    game.show_bullet(window);
     
     //Show new frame
     window.display();
