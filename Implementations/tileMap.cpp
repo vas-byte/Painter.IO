@@ -2,6 +2,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <vector>
+#include "../Headers/Object.h"
 
 void TileMap::load_tileMap(){
     //init JSON object
@@ -88,6 +89,13 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 //Gets an array of map features
-std::vector<tileFeature*> TileMap::get_mapFeatures(){
+tileFeature* TileMap::get_mapFeatures(int width, int row, int col, int id){
+    
+    if(tileMap[col + row * width] != 12)
+        return nullptr;
 
+    //Loads map features into vector
+    tileFeature* feature = new tileFeature(id, col * 16, row * 16);
+    
+    return feature;
 }

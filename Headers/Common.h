@@ -1,6 +1,10 @@
 #ifndef COMMON_H
 #define COMMON_H
     
+    #include <math.h>
+
+    float calculateAngleBetweenVectors(float playerX, float playerY, float objX, float objY);
+
     //Defines fire rate of gun based off time restriction for calling attack()
     enum fireRate{
         pistol = 400,

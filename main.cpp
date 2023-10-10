@@ -10,9 +10,6 @@ int main() {
   //Create game instance
   Game game;
 
-  //Create instance of player (human)
-  Player player(&game);
-
   // create the window
   sf::RenderWindow window(sf::VideoMode(game.get_width(), game.get_height()), "Painter.IO");
 
@@ -27,19 +24,19 @@ int main() {
 
     //Listen for keyboard input
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-      player.setMovement(movement::left);
+      game.movePlayer(movement::left);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-      player.setMovement(movement::right);
+      game.movePlayer(movement::right);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-      player.setMovement(movement::up);
+      game.movePlayer(movement::up);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-      player.setMovement(movement::down);
+      game.movePlayer(movement::down);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-     player.attack();
+     game.set_bullet();
     }
 
     //Clear previous frame
@@ -49,9 +46,7 @@ int main() {
     window.draw(game.get_map());
 
     //Render player movement and HUD
-    window.draw(player.move());
-    player.showAmmo(window);
-    player.showHealth(window);
+    game.renderPlayer(window);
 
     //Render bullets & bot movement
     game.show_bullet(window);

@@ -15,9 +15,10 @@ class Player : public Person{
 
 
     public:
-        Player(Game* game);
-        void showHealth(sf::RenderWindow& app);
-        void showAmmo(sf::RenderWindow& app);
+        Player(int width, int height, int id);
+        Player();
+        void showHealth(sf::RenderWindow& app, int width, int height);
+        void showAmmo(sf::RenderWindow& app, int width, int height);
      
 };
 

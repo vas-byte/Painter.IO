@@ -4,7 +4,7 @@ INCLUDE_PATH = /Implementations
 CXXFLAGS = -std=c++17
 
 default: main.cpp $(wildcard $(INCLUDE_PATH)/*.cpp)
-	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) main.cpp Implementations/Bullet.cpp Implementations/Collectable.cpp Implementations/Game.cpp Implementations/Gun.cpp Implementations/Object.cpp Implementations/Person.cpp Implementations/Player.cpp Implementations/tileMap.cpp -o painter.IO
+	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) main.cpp Implementations/Bullet.cpp Implementations/Collectable.cpp Implementations/Common.cpp Implementations/Game.cpp Implementations/Gun.cpp Implementations/Object.cpp Implementations/Person.cpp Implementations/Player.cpp Implementations/tileFeature.cpp Implementations/tileMap.cpp -o painter.IO
 
 run: main.cpp $(wildcard $(INCLUDE_PATH)/*.cpp)
 	make default

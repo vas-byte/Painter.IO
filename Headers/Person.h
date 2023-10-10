@@ -6,28 +6,35 @@
 #include "Object.h"
 #include "Common.h"
 #include "Bullet.h"
-#include "Game.h"
 #include "Gun.h"
 
-class Person : public Object {
+class Person {
     protected:
         int health;
         std::array<Gun, 2> gun_inventory;
         float xDelta;
         float yDelta;
         float Rot;
+        sf::Vector2f lastPos;
         sf::Sprite sprite;
         sf::Texture texture;
-        Game* game;
         sf::Clock clock;
         int selectedGun;
         
     public:
-        Person(Game* thisGame);
-        void attack();
+        Person(int id);
+        Bullet* attack();
+        bool canAttack();
         int get_health();
         sf::Sprite move();
         void setMovement(movement::Direction direction);
+        void move(sf::Vector2f);
+
+        //Get Player Position
+        float get_x();
+        float get_y();
+        float get_rotation();
+        sf::FloatRect get_bounds();
         
 };
 

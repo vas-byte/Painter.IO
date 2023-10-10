@@ -6,10 +6,16 @@
 
 class Collectable : public Object{
     protected:
-        sf::Vector2f position;
+        float x;
+        float y;
         bool isCollected;
+        sf::RectangleShape rectangle;
+        
     public:
         Collectable(int id, bool isCollected);
+        float get_x();
+        float get_y();
+        sf::RectangleShape get_bounds();
 };
 
 #endif

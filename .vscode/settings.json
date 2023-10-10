@@ -56,6 +56,12 @@
         "variant": "cpp",
         "algorithm": "cpp",
         "fstream": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "any": "cpp",
+        "forward_list": "cpp",
+        "span": "cpp",
+        "valarray": "cpp",
+        "future": "cpp",
+        "thread": "cpp"
     }
 }

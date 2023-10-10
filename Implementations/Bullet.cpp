@@ -1,37 +1,35 @@
 #include "../Headers/Bullet.h"
 
-Bullet::Bullet(sf::Sprite* sprite){
+Bullet::Bullet(float x, float y, float rot){
     bTexture.loadFromFile("Assets/Individual Icons and Particles/BulletProjectile.png");
     bullet.setTexture(bTexture);
     
 
-    setPosition(sprite);
+    setPosition(x,y,rot);
 }
 
 //Sets position of bullet (from shooting position) for rendering
-void Bullet::setPosition(sf::Sprite* sprite){
+void Bullet::setPosition(float x, float y, float rot){
     
-    std::cout << sprite->getRotation() << std::endl;
-
     //Down
-    if(sprite->getRotation() == 90.f){
-        bullet.setPosition(sprite->getPosition().x-7.8f, sprite->getPosition().y+13);
+    if(rot == 90.f){
+        bullet.setPosition(x-7.8f, y+13);
         bulletDirection = sf::Vector2f(0.f,2.f);
     
     //Up
-    } else if(sprite->getRotation() == 270.f){
-        bullet.setPosition(sprite->getPosition().x-7.8f, sprite->getPosition().y-30);
+    } else if(rot == 270.f){
+        bullet.setPosition(x-7.8f, y-30);
         bulletDirection = sf::Vector2f(0.f,-2.f);
 
     //Left
-    }  else if(sprite->getRotation() == 180.f){
-        bullet.setPosition(sprite->getPosition().x-30, sprite->getPosition().y-7.5f);
+    }  else if(rot == 180.f){
+        bullet.setPosition(x-30, y-7.5f);
         bulletDirection = sf::Vector2f(-2.f,0.f);
 
     //Right - note game engine does not represent sprite angle as 0 when it first loads hence <1
-    } else if(sprite->getRotation() == 0.f || sprite->getRotation() < 1.f){
+    } else if(rot == 0.f || rot == 360.f){
         bulletDirection = sf::Vector2f(2.f,0.f);
-        bullet.setPosition(sprite->getPosition().x+13, sprite->getPosition().y-7.5f);
+        bullet.setPosition(x+13, y-7.5f);
     }
 }
 

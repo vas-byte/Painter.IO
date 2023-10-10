@@ -9,10 +9,10 @@
             sf::Texture bTexture;
             sf::Sprite bullet;
             sf::Vector2f bulletDirection;
-            void setPosition(sf::Sprite* sprite);
+            void setPosition(float x, float y, float rot);
 
         public:
-            Bullet(sf::Sprite* sprite);
+            Bullet(float x, float y, float rot);
             sf::Sprite shootBullet();
             bool isInsideMap(int width, int height);
     };
