@@ -26,15 +26,16 @@ int main() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
       game.movePlayer(movement::left);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
       game.movePlayer(movement::right);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
       game.movePlayer(movement::up);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
       game.movePlayer(movement::down);
     }
+    
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
      game.set_bullet();
     }

@@ -108,6 +108,26 @@ void Game::renderPlayer(sf::RenderWindow &app){
   app.draw(human->move());
 }
 
+//Checks if player is close to any tiles
+bool Game::detectCollision(Object* obj){
+  if(human->get_rotation() == 0.f || human->get_rotation() == 360.f){
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x + 24) < 5 &&  abs(human->get_y() - obj->get_bounds().getPosition().y) < 10)
+        return true;
+
+    } else if (human->get_rotation() == 90.f){
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x) < 10 &&  abs(human->get_y() - obj->get_bounds().getPosition().y + 24) < 5)
+        return true;
+
+    } else if (human->get_rotation() == 180.f){
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x - 24) < 15 &&  abs(human->get_y() - obj->get_bounds().getPosition().y) < 11)
+        return true;
+
+    } else if (human->get_rotation() == 270.f){
+      if(abs(human->get_x() - obj->get_bounds().getPosition().x) < 11 &&  abs(human->get_y() - obj->get_bounds().getPosition().y - 24) < 15)   
+        return true;
+    }
+}
+
 //Checks if player will collide with object
 bool Game::checkCollision(movement::Direction direction){
   
@@ -133,12 +153,10 @@ bool Game::checkCollision(movement::Direction direction){
   for(int i = 0; i < 91; i++){
 
     if(isCollided){
-
-      std::cout << "current: " << rot << std::endl;
-      std::cout << "prev:    " << prev_dir << std::endl;
-
       for(int i = 0; i < 91; i++){
-        if(human->get_bounds().contains(map_objects[i]->get_bounds().getPosition())){
+
+        //human->get_bounds().contains(map_objects[i]->get_bounds().getPosition())
+        if(detectCollision(map_objects[i])){
           isCollided = true;
           break;
         } else {
@@ -152,43 +170,12 @@ bool Game::checkCollision(movement::Direction direction){
         return true;
       }
 
-    } else if(human->get_bounds().contains(map_objects[i]->get_bounds().getPosition())){
-     
-     
+    } else if(detectCollision(map_objects[i])){
       collided_tile = map_objects[i];
       prev_dir = human->get_rotation();
-      std::cout << "current: " << rot << std::endl;
-      std::cout << "prev:    " << prev_dir << std::endl;
       isCollided = true;
       return true;
-
     }
-
-   
-   
-    // if(human->get_rotation() == 0.f || human->get_rotation() == 360.f){
-    //    std::cout << "C1" << std::endl;
-    //   if(abs(human->get_x() - map_objects[i]->get_bounds().getPosition().x + 24) < 5 &&  abs(human->get_y() - map_objects[i]->get_bounds().getPosition().y) < 10)
-    //     human->move(sf::Vector2f(-0.2,0));
-
-    // } else if (human->get_rotation() == 90.f){
-    //    std::cout << "C2" << std::endl;
-    //   if(abs(human->get_x() - map_objects[i]->get_bounds().getPosition().x) < 10 &&  abs(human->get_y() - map_objects[i]->get_bounds().getPosition().y + 24) < 5)
-    //    human->move(sf::Vector2f(0,-0.2));
-
-    // } else if (human->get_rotation() == 180.f){
-    //   std::cout << "C3" << std::endl;
-    //   std::cout << abs(human->get_y() - map_objects[i]->get_bounds().getPosition().y) <<std::endl;
-    //   if(abs(human->get_x() - map_objects[i]->get_bounds().getPosition().x - 24) < 15 &&  abs(human->get_y() - map_objects[i]->get_bounds().getPosition().y) < 11)
-    //     human->move(sf::Vector2f(0.2,0));
-
-    // } else if (human->get_rotation() == 270.f){
-    //    std::cout << "C4" << std::endl;
-    //   if(abs(human->get_x() - map_objects[i]->get_bounds().getPosition().x) < 11 &&  abs(human->get_y() - map_objects[i]->get_bounds().getPosition().y - 24) < 15)   
-    //     human->move(sf::Vector2f(0,0.2));
-
-    // }
-
 
   }
     isCollided = false;
@@ -199,6 +186,4 @@ bool Game::checkCollision(movement::Direction direction){
 void Game::movePlayer(movement::Direction direction){
   if(!checkCollision(direction))
     human->setMovement(direction);
-
-
 }

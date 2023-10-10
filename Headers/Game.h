@@ -39,7 +39,8 @@ class Game{
         void renderPlayer(sf::RenderWindow &app);
         void movePlayer(movement::Direction direction);
 
-        bool checkCollision(movement::Direction direction);  
+        bool checkCollision(movement::Direction direction);
+        bool detectCollision(Object* obj);  
 };
 
 #endif
