@@ -158,6 +158,16 @@ int Game::generate_id() {
   return obj_id;
 }
 
+bool Game::bulletCollision(Bullet* bullet){
+  for(int i = 0; i < 91; i++){
+    if(map_objects[i]->get_bounds().getGlobalBounds().intersects(bullet->get_bounds())){
+      return true;
+    }
+  }
+
+  return false;
+}
+
 //Adds bullet to global render queue
 void Game::set_bullet() {
   if (human->canAttack()) {
@@ -170,6 +180,14 @@ void Game::set_bullet() {
 void Game::show_bullet(sf::RenderWindow& app) {
   // Iterate over list of shot bullets
   for (int i = 0; i < bullets.size(); i++) {
+
+    //Check if exploded (if so remove from render queue)
+    if (bullets.at(i)->get_exploded()) {
+      delete bullets.at(i);
+      bullets.erase(bullets.begin() + i);
+      continue;
+    }
+
     // Check if bullets exist within map (otherwise remove from rendering queue)
     if (!bullets.at(i)->isInsideMap(width, height)) {
       delete bullets.at(i);
@@ -177,7 +195,12 @@ void Game::show_bullet(sf::RenderWindow& app) {
       continue;
     }
 
-    // Render moving bullet
+    //Check if collided
+   if(bulletCollision(bullets.at(i))){
+      bullets.at(i)->set_exploded();
+   }
+
+    // Render moving bullet (if not exploded)
     app.draw(bullets.at(i)->shootBullet());
   }
 }
@@ -191,38 +214,38 @@ void Game::renderPlayer(sf::RenderWindow& app) {
 }
 
 // Checks if player is close to any tiles
-bool Game::detectPlayerCollision(Object* obj) {
+bool Game::detectPlayerCollision(Person* entity, Object* obj) {
 
   // Note: a distance threshold is applied different depending on the direction
   // the sprite faces since it is rectangular
 
   //Checks distance between wall object and player (when moving right)
-  if (human->get_rotation() == 0.f || human->get_rotation() == 360.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x + 24) < 5 && abs(human->get_y() - obj->get_bounds().getPosition().y) < 14){
+  if (entity->get_rotation() == 0.f || entity->get_rotation() == 360.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x + 24) < 5 && abs(entity->get_y() - obj->get_bounds().getPosition().y) < 14){
           return true;
         }
       
   //Checks distance between wall object and player (when moving down)
-  } else if (human->get_rotation() == 90.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x) < 14 && abs(human->get_y() - obj->get_bounds().getPosition().y + 24) < 5){
+  } else if (entity->get_rotation() == 90.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x) < 14 && abs(entity->get_y() - obj->get_bounds().getPosition().y + 24) < 5){
            return true;
         }
      
   //Checks distance between wall object and player (when moving left)
-  } else if (human->get_rotation() == 180.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x - 24) < 15 && abs(human->get_y() - obj->get_bounds().getPosition().y) < 17){
+  } else if (entity->get_rotation() == 180.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x - 24) < 15 && abs(entity->get_y() - obj->get_bounds().getPosition().y) < 17){
           return true;
         }
       
   //Checks distance between wall object and player (when moving up)
-  } else if (human->get_rotation() == 270.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x) < 17 && abs(human->get_y() - obj->get_bounds().getPosition().y - 24) < 15){
+  } else if (entity->get_rotation() == 270.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x) < 17 && abs(entity->get_y() - obj->get_bounds().getPosition().y - 24) < 15){
           return true;
         }
       
-  } else {
-    return false;
   }
+
+  return false; 
 }
 
 // Checks if player will collide with object
@@ -237,7 +260,7 @@ bool Game::checkCollision(movement::Direction direction) {
       for (int i = 0; i < 91; i++) {
 
         //Check player is out of range of collided barrier
-        if (detectPlayerCollision(map_objects[i])) {
+        if (detectPlayerCollision(human, map_objects[i])) {
           human->set_collision(true);
           break;
         } else {
@@ -253,7 +276,7 @@ bool Game::checkCollision(movement::Direction direction) {
       }
 
     //Otherwise check if player will collide with a non "passthrough" object
-    } else if (detectPlayerCollision(map_objects[i])) {
+    } else if (detectPlayerCollision(human, map_objects[i])) {
       human->set_previous_dir(human->get_rotation());
       human->set_collision(true);
       return true;
@@ -346,7 +369,6 @@ Gun* gun = collectable_guns[id];
 
 
 //Pass base object to Person class
-
 if(health != nullptr){
   if(player->accept_collectables(health)){
     health->collect();
@@ -375,6 +397,7 @@ void Game::collectObject(){
   collectObject(human);
 }
 
+//Called by human player (to swap guns)
 void Game::swap_gun(){
   human->swapGun();
 }

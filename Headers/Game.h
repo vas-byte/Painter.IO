@@ -33,7 +33,7 @@ class Game{
 
         //Player related properties
         Player* human;
-        bool detectPlayerCollision(Object* obj);
+        bool detectPlayerCollision(Person* entity, Object* obj);
         bool isInsideMap(movement::Direction direction);
         
     
@@ -49,6 +49,7 @@ class Game{
         int generate_id();
         void set_bullet();
         void show_bullet(sf::RenderWindow &app);
+        bool bulletCollision(Bullet* bullet);
 
         //Map properties
         TileMap get_map();
