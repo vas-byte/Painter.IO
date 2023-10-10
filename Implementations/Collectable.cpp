@@ -19,6 +19,8 @@ Collectable::Collectable(int id, bool isCollected){
     passthrough = true;
     this->x = x;
     this->y = y;
+    recttexture.loadFromFile(texture);
+    rectangle.setTexture(&recttexture);
     rectangle.setSize(sf::Vector2f(16, 16));
     rectangle.setPosition(x,y);
  }
@@ -35,3 +37,15 @@ float Collectable::get_y(){
 sf::RectangleShape Collectable::get_bounds(){
     return rectangle;
 }
+
+void Collectable::render(sf::RenderWindow& app){
+    app.draw(rectangle);
+}
+
+ bool Collectable::get_collected_status(){
+    return isCollected;
+ }
+
+ void Collectable::collect(){
+    isCollected = true;
+ }

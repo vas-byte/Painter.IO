@@ -1,16 +1,18 @@
 #include "../Headers/Game.h"
-
 #include <algorithm>
 #include <future>
 #include <iostream>
 #include <vector>
-
+#include <cstdlib>
 #include "../Headers/Bullet.h"
 #include "../Headers/Common.h"
 #include "../Headers/Object.h"
 #include "../Headers/Person.h"
 #include "../Headers/Player.h"
+#include "../Headers/Health.h"
+#include "../Headers/Ammo.h"
 
+//Load map features (wall tiles) into array
 void Game::load_features() {
   //Array index
   int feature_index = 0;
@@ -32,6 +34,78 @@ void Game::load_features() {
   }
 }
 
+//Generates random position for objects/players in a spot with an empty tile
+sf::Vector2f Game::generate_position(){
+  srand(time(0));
+
+  while(true){
+    bool noTile = true;
+    bool noCollectable = true;
+
+    int x = 50 + rand() % 1200;
+    int y = 50 + rand() % 650;
+
+    for(int i = 0; i < 91; i++){
+      if(x == map_objects[i]->get_x() || y == map_objects[i]->get_y()){
+        noTile = false;
+        break;
+      }
+    }
+
+    if(!noTile)
+      continue;
+    
+    for(int i = 0; i < 12; i++){
+      if(collectables[i] == nullptr)
+        continue;
+      
+      if(collectables[i]->get_x() == x || collectables[i]->get_y() == y){
+        noCollectable = false;
+        break;
+      }
+
+    }
+
+    if(!noCollectable)
+      continue;
+    
+    return sf::Vector2f(x,y);
+  }
+
+
+};
+
+//Load collectable objects into game
+void Game::load_collectables(){
+
+  //Generate random health collectables
+  for(int i = 0; i < 4; i++){
+    sf::Vector2f pos = generate_position();
+    int id = generate_id();
+    Health* health = new Health(id, false, pos.x, pos.y);
+    collectables[i] = health;
+    collectable_health[id] = health;
+  }
+
+  //Generate random ammo collectables
+  for(int i = 0; i < 4; i++){
+    sf::Vector2f pos = generate_position();
+    int id = generate_id();
+    Ammo* ammo = new Ammo(id, false, pos.x, pos.y);
+    collectables[4 + i] = ammo;
+    collectable_ammo[id] = ammo;
+  }
+
+  //Generate random gun collectables
+  for(int i = 0; i < 4; i++){
+    sf::Vector2f pos = generate_position();
+    int id = generate_id();
+    Gun* gun = new Gun(id, false, rapid, pos.x, pos.y);
+    collectables[8 + i] = gun;
+    collectable_guns[id] = gun;
+  }
+}
+
 // Default constructor for game
 Game::Game() {
   width = 1440;
@@ -47,10 +121,14 @@ Game::Game() {
   map_objects = new tileFeature*[91];
   load_features();
 
-  // Load "player" into game
-  human = new Player(width, height, generate_id());
 
+  //load collectable items
+  collectables = new Collectable*[12];
+  load_collectables();
 
+  // Load "human player" into game
+  sf::Vector2f player_pos = generate_position();
+  human = new Player(width, height, player_pos.x, player_pos.y, generate_id());
 }
 
 // Default destructor for game
@@ -80,6 +158,16 @@ int Game::generate_id() {
   return obj_id;
 }
 
+bool Game::bulletCollision(Bullet* bullet){
+  for(int i = 0; i < 91; i++){
+    if(map_objects[i]->get_bounds().getGlobalBounds().intersects(bullet->get_bounds())){
+      return true;
+    }
+  }
+
+  return false;
+}
+
 //Adds bullet to global render queue
 void Game::set_bullet() {
   if (human->canAttack()) {
@@ -92,6 +180,14 @@ void Game::set_bullet() {
 void Game::show_bullet(sf::RenderWindow& app) {
   // Iterate over list of shot bullets
   for (int i = 0; i < bullets.size(); i++) {
+
+    //Check if exploded (if so remove from render queue)
+    if (bullets.at(i)->get_exploded()) {
+      delete bullets.at(i);
+      bullets.erase(bullets.begin() + i);
+      continue;
+    }
+
     // Check if bullets exist within map (otherwise remove from rendering queue)
     if (!bullets.at(i)->isInsideMap(width, height)) {
       delete bullets.at(i);
@@ -99,7 +195,12 @@ void Game::show_bullet(sf::RenderWindow& app) {
       continue;
     }
 
-    // Render moving bullet
+    //Check if collided
+   if(bulletCollision(bullets.at(i))){
+      bullets.at(i)->set_exploded();
+   }
+
+    // Render moving bullet (if not exploded)
     app.draw(bullets.at(i)->shootBullet());
   }
 }
@@ -108,45 +209,43 @@ void Game::show_bullet(sf::RenderWindow& app) {
 void Game::renderPlayer(sf::RenderWindow& app) {
   human->showAmmo(app, width, height);
   human->showHealth(app, width, height);
-  human->move(app);
+  human->showGun(app, width, height);
+  human->render(app);
 }
 
 // Checks if player is close to any tiles
-bool Game::detectPlayerCollision(Object* obj) {
-  if (human->get_rotation() == 0.f || human->get_rotation() == 360.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x + 24) < 5 &&
-        abs(human->get_y() - obj->get_bounds().getPosition().y) < 14){
-          std::cout << "C1" << std::endl;
+bool Game::detectPlayerCollision(Person* entity, Object* obj) {
+
+  // Note: a distance threshold is applied different depending on the direction
+  // the sprite faces since it is rectangular
+
+  //Checks distance between wall object and player (when moving right)
+  if (entity->get_rotation() == 0.f || entity->get_rotation() == 360.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x + 24) < 5 && abs(entity->get_y() - obj->get_bounds().getPosition().y) < 14){
           return true;
         }
       
-
-  } else if (human->get_rotation() == 90.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x) < 14 &&
-        abs(human->get_y() - obj->get_bounds().getPosition().y + 24) < 5){
-          std::cout << "C2" << std::endl;
+  //Checks distance between wall object and player (when moving down)
+  } else if (entity->get_rotation() == 90.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x) < 14 && abs(entity->get_y() - obj->get_bounds().getPosition().y + 24) < 5){
            return true;
         }
      
-
-  } else if (human->get_rotation() == 180.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x - 24) < 15 &&
-        abs(human->get_y() - obj->get_bounds().getPosition().y) < 17){
-          std::cout << "C3" << std::endl;
+  //Checks distance between wall object and player (when moving left)
+  } else if (entity->get_rotation() == 180.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x - 24) < 15 && abs(entity->get_y() - obj->get_bounds().getPosition().y) < 17){
           return true;
         }
       
-
-  } else if (human->get_rotation() == 270.f) {
-    if (abs(human->get_x() - obj->get_bounds().getPosition().x) < 17 &&
-        abs(human->get_y() - obj->get_bounds().getPosition().y - 24) < 15){
-          std::cout << "C4" << std::endl;
+  //Checks distance between wall object and player (when moving up)
+  } else if (entity->get_rotation() == 270.f) {
+    if (abs(entity->get_x() - obj->get_bounds().getPosition().x) < 17 && abs(entity->get_y() - obj->get_bounds().getPosition().y - 24) < 15){
           return true;
         }
       
-  } else {
-    return false;
   }
+
+  return false; 
 }
 
 // Checks if player will collide with object
@@ -161,7 +260,7 @@ bool Game::checkCollision(movement::Direction direction) {
       for (int i = 0; i < 91; i++) {
 
         //Check player is out of range of collided barrier
-        if (detectPlayerCollision(map_objects[i])) {
+        if (detectPlayerCollision(human, map_objects[i])) {
           human->set_collision(true);
           break;
         } else {
@@ -177,7 +276,7 @@ bool Game::checkCollision(movement::Direction direction) {
       }
 
     //Otherwise check if player will collide with a non "passthrough" object
-    } else if (detectPlayerCollision(map_objects[i])) {
+    } else if (detectPlayerCollision(human, map_objects[i])) {
       human->set_previous_dir(human->get_rotation());
       human->set_collision(true);
       return true;
@@ -194,7 +293,7 @@ bool Game::isInsideMap(movement::Direction direction){
  
  //Checks if player is outside map bounds
   if(human->get_x() < 20){
-    //Checks if map is heading within bounds (aka not left and further outside)
+    //Checks if player is heading within bounds (aka not left and further outside)
     if(direction != movement::left){ 
       return true; 
     } else {
@@ -202,7 +301,7 @@ bool Game::isInsideMap(movement::Direction direction){
     }
 
   } else if(human->get_x() > width-20){
-    //Checks if map is heading within bounds (aka not left and further outside)
+    //Checks if player is heading within bounds (aka not left and further outside)
     if(direction != movement::right){ 
       return true;
     } else {
@@ -210,7 +309,7 @@ bool Game::isInsideMap(movement::Direction direction){
     }
     
   } else if(human->get_y() < 20){
-    //Checks if map is heading within bounds (aka not left and further outside)
+    //Checks if player is heading within bounds (aka not left and further outside)
     if(direction != movement::up){ 
       return true;
     } else {
@@ -218,7 +317,7 @@ bool Game::isInsideMap(movement::Direction direction){
     }
   
   } else if(human->get_y() > height - 20){
-    //Checks if map is heading within bounds (aka not left and further outside)
+    //Checks if player is heading within bounds (aka not left and further outside)
     if(direction != movement::down) {
       return true;
     } else {
@@ -234,5 +333,71 @@ bool Game::isInsideMap(movement::Direction direction){
 
 // Sets Player Movement from Keyboard
 void Game::movePlayer(movement::Direction direction) {
-  if(isInsideMap(direction) && !checkCollision(direction)) human->setMovement(direction);
+  if(isInsideMap(direction) && !checkCollision(direction)) human->move(direction);
+}
+
+//Show collectable objects
+void Game::render_objects(sf::RenderWindow &app){
+  for(int i = 0; i < 12; i++){
+    if(!collectables[i]->get_collected_status())
+      collectables[i]->render(app);
+  }
+}
+
+//Collect any nearby objects
+void Game::collectObject(Person* player){
+
+  int id = 0;
+
+  for(int i = 0; i < 12; i++){
+
+    //Checks if object already collected
+    if(collectables[i]->get_collected_status())
+      continue;
+
+    //Checks if object is close to player
+    if(abs(player->get_x() - collectables[i]->get_x()) < 30 && abs(player->get_y() - collectables[i]->get_y()) < 30){
+      id = collectables[i]->get_id();
+    }
+
+  }
+
+//Get the base object from a dictionary
+Health* health = collectable_health[id];
+Ammo* ammo = collectable_ammo[id];
+Gun* gun = collectable_guns[id];
+
+
+//Pass base object to Person class
+if(health != nullptr){
+  if(player->accept_collectables(health)){
+    health->collect();
+    return;
+  }  
+}
+
+if(ammo != nullptr){
+  if(player->accept_collectables(ammo)){
+    ammo->collect();
+    return;
+  }
+}
+
+if(gun != nullptr){
+ if(player->accept_collectables(gun)){
+    gun->collect();
+    return;
+ }  
+}
+
+}
+
+//Called by human player (to collect nearby objects)
+void Game::collectObject(){
+  collectObject(human);
+}
+
+//Called by human player (to swap guns)
+void Game::swap_gun(){
+  human->swapGun();
 }

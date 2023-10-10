@@ -7,8 +7,7 @@
 class Health : public Collectable{
     private:
         int hp;
-       
-
+    
     public:
         Health(int id, bool isCollected, float x, float y);
         int get_health();

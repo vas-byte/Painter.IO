@@ -63,5 +63,6 @@
         "valarray": "cpp",
         "future": "cpp",
         "thread": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

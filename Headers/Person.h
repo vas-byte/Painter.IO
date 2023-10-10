@@ -8,6 +8,9 @@
 #include "Bullet.h"
 #include "Gun.h"
 #include "tileFeature.h"
+#include "Gun.h"
+#include "Ammo.h"
+#include "Health.h"
 class Person {
     protected:
         //Player Health
@@ -17,11 +20,9 @@ class Person {
         std::array<Gun, 2> gun_inventory;
         int selectedGun;
         sf::Clock clock;
+        bool hasSecondary;
 
         //Setting Future Player movement
-        float xDelta;
-        float yDelta;
-        float Rot;
         bool isCollided;
 
         //Previous player position
@@ -33,18 +34,19 @@ class Person {
         sf::Texture texture;
             
     public:
-        Person(int id);
+        Person(int id, float x, float y);
 
         //Attack methods
         Bullet* attack();
         bool canAttack();
+        void swapGun();
 
         //Get player's status 
         int get_health();
 
         //Move player
-        void move(sf::RenderWindow& app);
-        void setMovement(movement::Direction direction);
+        void move(movement::Direction direction);
+        void render(sf::RenderWindow& app);
 
         //Get Player Position
         float get_x();
@@ -57,6 +59,11 @@ class Person {
         void set_collision(bool collision_status);
         float get_previous_dir();
         void set_previous_dir(float dir);
+
+        //Player collectables
+        bool accept_collectables(Gun* gun);
+        bool accept_collectables(Health* health);
+        bool accept_collectables(Ammo* ammo);
 
 };
 

@@ -12,7 +12,11 @@ class tileFeature : public Object{
 
     public:
         tileFeature(int id, float x, float y);
+
+        //get rectangle bound by tiles
         sf::RectangleShape get_bounds();
+
+        //get x, y coords of wall tile 
         float get_x();
         float get_y();
 

@@ -5,8 +5,12 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 class Object{
     protected:
+        //Can people walk through the object
         bool passthrough;
+
+        //Unique object ID
         int id;
+        
     public:
         int get_id();
         virtual sf::RectangleShape get_bounds() = 0;
