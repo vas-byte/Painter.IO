@@ -23,9 +23,6 @@ class Person {
         bool hasSecondary;
 
         //Setting Future Player movement
-        float xDelta;
-        float yDelta;
-        float Rot;
         bool isCollided;
 
         //Previous player position
@@ -48,8 +45,8 @@ class Person {
         int get_health();
 
         //Move player
-        void move(sf::RenderWindow& app);
-        void setMovement(movement::Direction direction);
+        void move(movement::Direction direction);
+        void render(sf::RenderWindow& app);
 
         //Get Player Position
         float get_x();

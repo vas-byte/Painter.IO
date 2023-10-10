@@ -53,7 +53,10 @@ void Player::showAmmo(sf::RenderWindow& app, int width, int height) {
   app.draw(bsprite);
 }
 
+//Displays currently selected gun in HUD
 void Player::showGun(sf::RenderWindow& app, int width, int height){
+  
+  //positions selected gun closer to bullet sprite
   if(selectedGun == primary){
     pistolsprite.setPosition(width - 200, 0 + 35);
     rapidsprite.setPosition(width - 300, 0 + 23);
@@ -62,8 +65,10 @@ void Player::showGun(sf::RenderWindow& app, int width, int height){
     rapidsprite.setPosition(width - 240, 0 + 23);
   }
 
+  //Renders pistol sprite
   app.draw(pistolsprite);
 
+  //Only renders machine gun sprite if player has the machine gun
   if(hasSecondary)
     app.draw(rapidsprite);
 }

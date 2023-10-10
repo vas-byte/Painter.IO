@@ -34,6 +34,7 @@ class Player : public Person{
         void showHealth(sf::RenderWindow& app, int width, int height);
         void showAmmo(sf::RenderWindow& app, int width, int height);
         void showGun(sf::RenderWindow& app, int width, int height);
+        
      
 };
 

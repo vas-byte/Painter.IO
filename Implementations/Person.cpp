@@ -15,34 +15,6 @@ Person::Person(int id, float x, float y){
     hasSecondary = false;
 };
 
-//Sets direction of player movement (from polling keyboard)
-void Person::setMovement(movement::Direction direction){
-    switch(direction){
-       
-        case movement::up:
-            yDelta=-0.2;
-            xDelta=0;
-            Rot=angle::up;
-            break;
-        case movement::down:
-            yDelta=0.2;
-            xDelta=0;
-            Rot=angle::down;
-            break;
-        case movement::left:
-            xDelta=-0.2;
-            yDelta=0;
-            Rot=angle::left; 
-            break;
-        case movement::right:
-            xDelta=0.2;
-            yDelta=0;
-            Rot=angle::right;
-            break;
-    }
-
-}
-
 Bullet* Person::attack(){ 
     //limit fire rate and check gun has ammo
     if(canAttack()){
@@ -69,12 +41,25 @@ int Person::get_health(){
 };
 
 //moves the player and returns the sprite to be rendered
-void Person::move(sf::RenderWindow& app){
-    sprite.setRotation(Rot);
-    sprite.move(sf::Vector2f(xDelta,yDelta));
-    app.draw(sprite);
-    xDelta = 0;
-    yDelta = 0;
+void Person::move(movement::Direction direction){
+    switch(direction){
+        case movement::up:
+            sprite.setRotation(angle::up);
+            sprite.move(sf::Vector2f(0,-0.2));
+            break;
+        case movement::down:
+            sprite.setRotation(angle::down);
+            sprite.move(sf::Vector2f(0,0.2));
+            break;
+        case movement::left:
+            sprite.setRotation(angle::left);
+            sprite.move(sf::Vector2f(-0.2,0));
+            break;
+        case movement::right:    
+            sprite.setRotation(angle::right);
+            sprite.move(sf::Vector2f(0.2,0));
+            break;
+    }
 }
 
 //Get player position
@@ -141,7 +126,9 @@ bool Person::accept_collectables(Ammo* ammo){
     return true;
 }
 
- void Person::swapGun(){
+
+//Swaps gun held by player
+void Person::swapGun(){
     if(!hasSecondary)
         return;
 
@@ -150,6 +137,11 @@ bool Person::accept_collectables(Ammo* ammo){
     } else {
         selectedGun = primary;
     }
+ }
+
+//Renders player
+ void Person::render(sf::RenderWindow& app){
+    app.draw(sprite);
  }
 
 

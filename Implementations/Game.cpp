@@ -187,7 +187,7 @@ void Game::renderPlayer(sf::RenderWindow& app) {
   human->showAmmo(app, width, height);
   human->showHealth(app, width, height);
   human->showGun(app, width, height);
-  human->move(app);
+  human->render(app);
 }
 
 // Checks if player is close to any tiles
@@ -310,7 +310,7 @@ bool Game::isInsideMap(movement::Direction direction){
 
 // Sets Player Movement from Keyboard
 void Game::movePlayer(movement::Direction direction) {
-  if(isInsideMap(direction) && !checkCollision(direction)) human->setMovement(direction);
+  if(isInsideMap(direction) && !checkCollision(direction)) human->move(direction);
 }
 
 //Show collectable objects
