@@ -8,6 +8,9 @@
 #include "Bullet.h"
 #include "Gun.h"
 #include "tileFeature.h"
+#include "Gun.h"
+#include "Ammo.h"
+#include "Health.h"
 class Person {
     protected:
         //Player Health
@@ -17,6 +20,7 @@ class Person {
         std::array<Gun, 2> gun_inventory;
         int selectedGun;
         sf::Clock clock;
+        bool hasSecondary;
 
         //Setting Future Player movement
         float xDelta;
@@ -38,6 +42,7 @@ class Person {
         //Attack methods
         Bullet* attack();
         bool canAttack();
+        void swapGun();
 
         //Get player's status 
         int get_health();
@@ -57,6 +62,11 @@ class Person {
         void set_collision(bool collision_status);
         float get_previous_dir();
         void set_previous_dir(float dir);
+
+        //Player collectables
+        bool accept_collectables(Gun* gun);
+        bool accept_collectables(Health* health);
+        bool accept_collectables(Ammo* ammo);
 
 };
 

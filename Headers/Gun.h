@@ -25,6 +25,7 @@ class Gun : public Collectable{
         int get_ammo();
         int get_damage();
         float get_rate();
+        void add_ammo(int ammo);
 
         //Reduce ammo count by 1
         void shoot();

@@ -186,6 +186,7 @@ void Game::show_bullet(sf::RenderWindow& app) {
 void Game::renderPlayer(sf::RenderWindow& app) {
   human->showAmmo(app, width, height);
   human->showHealth(app, width, height);
+  human->showGun(app, width, height);
   human->move(app);
 }
 
@@ -320,6 +321,60 @@ void Game::render_objects(sf::RenderWindow &app){
   }
 }
 
+//Collect any nearby objects
 void Game::collectObject(Person* player){
-  
+
+  int id = 0;
+
+  for(int i = 0; i < 12; i++){
+
+    //Checks if object already collected
+    if(collectables[i]->get_collected_status())
+      continue;
+
+    //Checks if object is close to player
+    if(abs(player->get_x() - collectables[i]->get_x()) < 30 && abs(player->get_y() - collectables[i]->get_y()) < 30){
+      id = collectables[i]->get_id();
+    }
+
+  }
+
+//Get the base object from a dictionary
+Health* health = collectable_health[id];
+Ammo* ammo = collectable_ammo[id];
+Gun* gun = collectable_guns[id];
+
+
+//Pass base object to Person class
+
+if(health != nullptr){
+  if(player->accept_collectables(health)){
+    health->collect();
+    return;
+  }  
+}
+
+if(ammo != nullptr){
+  if(player->accept_collectables(ammo)){
+    ammo->collect();
+    return;
+  }
+}
+
+if(gun != nullptr){
+ if(player->accept_collectables(gun)){
+    gun->collect();
+    return;
+ }  
+}
+
+}
+
+//Called by human player (to collect nearby objects)
+void Game::collectObject(){
+  collectObject(human);
+}
+
+void Game::swap_gun(){
+  human->swapGun();
 }

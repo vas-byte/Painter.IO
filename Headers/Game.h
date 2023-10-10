@@ -56,9 +56,14 @@ class Game{
         
         //Player properties
         void renderPlayer(sf::RenderWindow &app);
-        void movePlayer(movement::Direction direction);
         bool checkCollision(movement::Direction direction);
         void collectObject(Person* player);
+        
+
+        //Human Player properties
+        void collectObject();
+        void movePlayer(movement::Direction direction);
+        void swap_gun();
        
 };
 

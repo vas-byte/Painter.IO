@@ -20,6 +20,7 @@ class Collectable : public Object{
         sf::RectangleShape get_bounds();
         void render(sf::RenderWindow& app);
         bool get_collected_status();
+        void collect();
 };
 
 #endif

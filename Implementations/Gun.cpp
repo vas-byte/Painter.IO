@@ -51,3 +51,7 @@ float Gun::get_rate(){
 void Gun::shoot(){
     ammo--;
 } 
+
+void Gun::add_ammo(int ammo){
+    this->ammo += ammo;
+}

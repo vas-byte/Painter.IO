@@ -12,6 +12,7 @@ Person::Person(int id, float x, float y){
     health = 100;
     selectedGun = primary;
     isCollided = false;
+    hasSecondary = false;
 };
 
 //Sets direction of player movement (from polling keyboard)
@@ -115,6 +116,41 @@ float Person::get_previous_dir(){
 void Person::set_previous_dir(float dir){
     prev_dir = dir;
 }
+
+//Accept collectables
+bool Person::accept_collectables(Gun* gun){
+    if(hasSecondary)
+        return false;
+    
+    gun_inventory[secondary] = *gun;
+    hasSecondary = true;
+    return true;
+}
+
+bool Person::accept_collectables(Health* health){
+    this->health += health->get_health();
+
+    if(this->health > 100)
+        this->health = 100;
+
+    return true;
+}
+
+bool Person::accept_collectables(Ammo* ammo){
+    this->gun_inventory[selectedGun].add_ammo(ammo->get_bullets()); 
+    return true;
+}
+
+ void Person::swapGun(){
+    if(!hasSecondary)
+        return;
+
+    if(selectedGun == primary){
+        selectedGun = secondary;
+    } else {
+        selectedGun = primary;
+    }
+ }
 
 
 

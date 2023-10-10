@@ -45,3 +45,7 @@ void Collectable::render(sf::RenderWindow& app){
  bool Collectable::get_collected_status(){
     return isCollected;
  }
+
+ void Collectable::collect(){
+    isCollected = true;
+ }
