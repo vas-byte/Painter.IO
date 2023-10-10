@@ -80,6 +80,7 @@ int Game::generate_id() {
   return obj_id;
 }
 
+//Adds bullet to global render queue
 void Game::set_bullet() {
   if (human->canAttack()) {
     bullets.push_back(human->attack());
@@ -107,7 +108,7 @@ void Game::show_bullet(sf::RenderWindow& app) {
 void Game::renderPlayer(sf::RenderWindow& app) {
   human->showAmmo(app, width, height);
   human->showHealth(app, width, height);
-  app.draw(human->move());
+  human->move(app);
 }
 
 // Checks if player is close to any tiles
@@ -143,6 +144,8 @@ bool Game::detectPlayerCollision(Object* obj) {
           return true;
         }
       
+  } else {
+    return false;
   }
 }
 
@@ -231,6 +234,5 @@ bool Game::isInsideMap(movement::Direction direction){
 
 // Sets Player Movement from Keyboard
 void Game::movePlayer(movement::Direction direction) {
-  // if (isInsideMap(direction) && !checkCollision(direction)) human->setMovement(direction);
   if(isInsideMap(direction) && !checkCollision(direction)) human->setMovement(direction);
 }

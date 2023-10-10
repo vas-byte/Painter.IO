@@ -42,10 +42,6 @@ void Person::setMovement(movement::Direction direction){
 
 }
 
-void Person::move(sf::Vector2f direction){
-    sprite.move(direction.x, direction.y);
-}
-
 Bullet* Person::attack(){ 
     //limit fire rate and check gun has ammo
     if(canAttack()){
@@ -58,6 +54,7 @@ Bullet* Person::attack(){
     }
 };
 
+//Determins if player has enough ammo and limits fire rate
 bool Person::canAttack(){
      if(clock.getElapsedTime().asMilliseconds() > gun_inventory[selectedGun].get_rate() && gun_inventory[selectedGun].get_ammo() > 0){
         return true;
@@ -71,12 +68,12 @@ int Person::get_health(){
 };
 
 //moves the player and returns the sprite to be rendered
-sf::Sprite Person::move(){
+void Person::move(sf::RenderWindow& app){
     sprite.setRotation(Rot);
     sprite.move(sf::Vector2f(xDelta,yDelta));
+    app.draw(sprite);
     xDelta = 0;
     yDelta = 0;
-    return sprite;
 }
 
 //Get player position
@@ -96,17 +93,25 @@ sf::FloatRect Person::get_bounds(){
    return sprite.getGlobalBounds();
 }
 
+
+//Stores whether player is currently colliding with wall
 bool Person::get_collision(){
     return isCollided;
 }
+
+//Updates player state about collision with wall
 void Person::set_collision(bool collision_status){
     isCollided = collision_status;
     
 }
+
+//Retrieves player position before colliding
 float Person::get_previous_dir(){
     return prev_dir;
 }
 
+
+//Update player position prior to collision event
 void Person::set_previous_dir(float dir){
     prev_dir = dir;
 }

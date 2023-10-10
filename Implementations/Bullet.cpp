@@ -1,5 +1,6 @@
 #include "../Headers/Bullet.h"
 
+
 Bullet::Bullet(float x, float y, float rot){
     bTexture.loadFromFile("Assets/Individual Icons and Particles/BulletProjectile.png");
     bullet.setTexture(bTexture);

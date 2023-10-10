@@ -10,28 +10,41 @@
 #include "tileFeature.h"
 class Person {
     protected:
+        //Player Health
         int health;
+
+        //Player Gun
         std::array<Gun, 2> gun_inventory;
+        int selectedGun;
+        sf::Clock clock;
+
+        //Setting Future Player movement
         float xDelta;
         float yDelta;
         float Rot;
+        bool isCollided;
+
+        //Previous player position
         sf::Vector2f lastPos;
+        float prev_dir;
+
+        //Player sprite
         sf::Sprite sprite;
         sf::Texture texture;
-        sf::Clock clock;
-        int selectedGun;
-        bool isCollided;
-        float prev_dir;
-        
-        
+            
     public:
         Person(int id);
+
+        //Attack methods
         Bullet* attack();
         bool canAttack();
+
+        //Get player's status 
         int get_health();
-        sf::Sprite move();
+
+        //Move player
+        void move(sf::RenderWindow& app);
         void setMovement(movement::Direction direction);
-        void move(sf::Vector2f);
 
         //Get Player Position
         float get_x();
