@@ -11,7 +11,7 @@ Person::Person(int id){
     gun_inventory[primary] = Gun(true, pistol, id);
     health = 100;
     selectedGun = primary;
-    isCollided = true;
+    isCollided = false;
 };
 
 //Sets direction of player movement (from polling keyboard)

@@ -115,7 +115,7 @@ bool Game::detectPlayerCollision(Object* obj) {
   if (human->get_rotation() == 0.f || human->get_rotation() == 360.f) {
     if (abs(human->get_x() - obj->get_bounds().getPosition().x + 24) < 5 &&
         abs(human->get_y() - obj->get_bounds().getPosition().y) < 14){
-          // std::cout << "C1" << std::endl;
+          std::cout << "C1" << std::endl;
           return true;
         }
       
@@ -123,7 +123,7 @@ bool Game::detectPlayerCollision(Object* obj) {
   } else if (human->get_rotation() == 90.f) {
     if (abs(human->get_x() - obj->get_bounds().getPosition().x) < 14 &&
         abs(human->get_y() - obj->get_bounds().getPosition().y + 24) < 5){
-          // std::cout << "C2" << std::endl;
+          std::cout << "C2" << std::endl;
            return true;
         }
      
@@ -131,7 +131,7 @@ bool Game::detectPlayerCollision(Object* obj) {
   } else if (human->get_rotation() == 180.f) {
     if (abs(human->get_x() - obj->get_bounds().getPosition().x - 24) < 15 &&
         abs(human->get_y() - obj->get_bounds().getPosition().y) < 17){
-          // std::cout << "C3" << std::endl;
+          std::cout << "C3" << std::endl;
           return true;
         }
       
@@ -139,7 +139,7 @@ bool Game::detectPlayerCollision(Object* obj) {
   } else if (human->get_rotation() == 270.f) {
     if (abs(human->get_x() - obj->get_bounds().getPosition().x) < 17 &&
         abs(human->get_y() - obj->get_bounds().getPosition().y - 24) < 15){
-          // std::cout << "C4" << std::endl;
+          std::cout << "C4" << std::endl;
           return true;
         }
       
@@ -154,6 +154,7 @@ bool Game::checkCollision(movement::Direction direction) {
 
     //Check if player has already collided
     if (human->get_collision()) {
+      
       for (int i = 0; i < 91; i++) {
 
         //Check player is out of range of collided barrier
@@ -165,8 +166,6 @@ bool Game::checkCollision(movement::Direction direction) {
         }
       }
 
-      // std::cout << next_rot << std::endl;
-      // std::cout << human->get_previous_dir() << std::endl;
       //Check player is moving away from object
       if (human->get_previous_dir() != next_rot) {
         return false;
@@ -232,5 +231,6 @@ bool Game::isInsideMap(movement::Direction direction){
 
 // Sets Player Movement from Keyboard
 void Game::movePlayer(movement::Direction direction) {
-  if (isInsideMap(direction) && !checkCollision(direction)) human->setMovement(direction);
+  // if (isInsideMap(direction) && !checkCollision(direction)) human->setMovement(direction);
+  if(isInsideMap(direction) && !checkCollision(direction)) human->setMovement(direction);
 }
