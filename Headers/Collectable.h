@@ -13,6 +13,7 @@ class Collectable : public Object{
         
     public:
         Collectable(int id, bool isCollected);
+        Collectable(int id, bool isCollected, float x, float y, std::string texture);
         float get_x();
         float get_y();
         sf::RectangleShape get_bounds();

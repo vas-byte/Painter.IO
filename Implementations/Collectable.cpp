@@ -11,6 +11,16 @@ Collectable::Collectable(int id, bool isCollected){
     rectangle.setPosition(x,y);
 }
 
+ Collectable::Collectable(int id, bool isCollected, float x, float y, std::string texture){
+    this->id=id;
+    this->isCollected = isCollected;
+    passthrough = true;
+    this->x = x;
+    this->y = y;
+    rectangle.setSize(sf::Vector2f(16, 16));
+    rectangle.setPosition(x,y);
+ }
+
 float Collectable::get_x(){
     return x;
 }

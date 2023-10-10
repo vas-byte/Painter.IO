@@ -11,6 +11,7 @@ Person::Person(int id){
     gun_inventory[primary] = Gun(true, pistol, id);
     health = 100;
     selectedGun = primary;
+    isCollided = true;
 };
 
 //Sets direction of player movement (from polling keyboard)
@@ -93,6 +94,21 @@ float Person::get_rotation(){
 
 sf::FloatRect Person::get_bounds(){
    return sprite.getGlobalBounds();
+}
+
+bool Person::get_collision(){
+    return isCollided;
+}
+void Person::set_collision(bool collision_status){
+    isCollided = collision_status;
+    
+}
+float Person::get_previous_dir(){
+    return prev_dir;
+}
+
+void Person::set_previous_dir(float dir){
+    prev_dir = dir;
 }
 
 

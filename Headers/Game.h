@@ -17,10 +17,8 @@ class Game{
         int obj_id;
         tileFeature** map_objects;
         Player* human;
-        float prevDir;
-        tileFeature* collided_tile;
-        bool isCollided;
-        int prev_dir;
+        bool detectPlayerCollision(Object* obj);
+        bool isInsideMap(movement::Direction direction);
         
     
     public:
@@ -40,7 +38,7 @@ class Game{
         void movePlayer(movement::Direction direction);
 
         bool checkCollision(movement::Direction direction);
-        bool detectCollision(Object* obj);  
+       
 };
 
 #endif

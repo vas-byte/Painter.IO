@@ -12,6 +12,7 @@ class Object{
         virtual sf::RectangleShape get_bounds() = 0;
         virtual float get_x() = 0;
         virtual float get_y() = 0;
+        bool isPassthrough();
         
 };
 

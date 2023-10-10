@@ -7,7 +7,7 @@
 #include "Common.h"
 #include "Bullet.h"
 #include "Gun.h"
-
+#include "tileFeature.h"
 class Person {
     protected:
         int health;
@@ -20,6 +20,9 @@ class Person {
         sf::Texture texture;
         sf::Clock clock;
         int selectedGun;
+        bool isCollided;
+        float prev_dir;
+        
         
     public:
         Person(int id);
@@ -35,7 +38,13 @@ class Person {
         float get_y();
         float get_rotation();
         sf::FloatRect get_bounds();
-        
+
+        //Player collision status
+        bool get_collision();
+        void set_collision(bool collision_status);
+        float get_previous_dir();
+        void set_previous_dir(float dir);
+
 };
 
 #endif
