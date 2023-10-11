@@ -11,7 +11,6 @@ class Object{
         //Unique object ID
         int id;
         
-    public:
         int get_id();
         virtual sf::RectangleShape get_bounds() = 0;
         virtual float get_x() = 0;
