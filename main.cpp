@@ -4,11 +4,14 @@
 #include "Headers/Bullet.h"
 #include "Headers/Common.h"
 #include "Headers/Game.h"
+#include "Headers/easyBot.h"
 
 
 int main() {
   //Create game instance
   Game game;
+
+  game.spawnBot();
 
   // create the window
   sf::RenderWindow window(sf::VideoMode(game.get_width(), game.get_height()), "Painter.IO");
@@ -26,7 +29,6 @@ int main() {
       if(event.key.code == sf::Keyboard::Tab){
         game.swap_gun();
       }
-      
     }
 
     //Listen for keyboard input (for moving player)
@@ -52,13 +54,14 @@ int main() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
      game.collectObject();
     }
-
-  
+    
     //Clear previous frame
     window.clear();
 
     //Render map
     window.draw(game.get_map());
+
+    game.updateBots();
 
     //render collectable objects
     game.render_objects(window);
@@ -68,6 +71,9 @@ int main() {
 
     //Render player movement and HUD
     game.renderPlayer(window);
+
+    game.renderBots(window);
+
     
     //Show new frame
     window.display();

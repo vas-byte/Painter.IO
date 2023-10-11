@@ -9,13 +9,20 @@
 #include "Player.h"
 #include "Common.h"
 #include "Health.h"
+#include "easyBot.h"
 #include "Ammo.h"
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics/Font.hpp> 
+
 class Game{
     private:
         //Map and frame characteristics
         int width;
         int height;
         TileMap map;
+        bool bulletHitsPlayer;
+        int bulletDamage;
+        sf::RenderWindow window;
 
         //Fetches random "empty" position in game map
         sf::Vector2f generate_position();
@@ -28,8 +35,14 @@ class Game{
         std::map<int,Gun*> collectable_guns;
         std::map<int,Ammo*> collectable_ammo;
         std::map<int,Health*> collectable_health;
+        sf::Font gameFont;
+        sf::SoundBuffer gameOverSoundBuffer;
+        sf::Sound gameOverSound;
         void load_features();
         void load_collectables();
+        void gameOver();
+        void restartGame();
+        std::vector<EasyBot> bots;
 
         //Player related properties
         Player* human;
@@ -54,12 +67,16 @@ class Game{
         //Map properties
         TileMap get_map();
         void render_objects(sf::RenderWindow &app);
+
         
         //Player properties
         void renderPlayer(sf::RenderWindow &app);
         bool checkCollision(movement::Direction direction);
         void collectObject(Person* player);
         
+        void updateBots();  
+        void renderBots(sf::RenderWindow &app);
+        void spawnBot();
 
         //Human Player properties
         void collectObject();

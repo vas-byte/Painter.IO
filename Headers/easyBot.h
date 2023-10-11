@@ -5,10 +5,10 @@
 
 class EasyBot : public Person {
 public:
-    EasyBot();  // constructor
-    void update() override;  // overriding the update method
-    sf::Sprite move() override;
-    void attack() override;  // overriding the attack method for shooting frequency and accuracy
+    EasyBot();
+    void update() override;
+    void move(movement::Direction direction = static_cast<movement::Direction>(rand() % 4)) override;
+    Bullet* attack() override;
 };
 
 #endif

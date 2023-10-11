@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics/RectangleShape.hpp>
 class Object{
-    protected:
+    public:
         //Can people walk through the object
         bool passthrough;
 

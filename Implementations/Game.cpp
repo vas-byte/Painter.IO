@@ -11,6 +11,7 @@
 #include "../Headers/Player.h"
 #include "../Headers/Health.h"
 #include "../Headers/Ammo.h"
+#include "../Headers/easyBot.h"
 
 //Load map features (wall tiles) into array
 void Game::load_features() {
@@ -29,9 +30,20 @@ void Game::load_features() {
         map_objects[feature_index] = feature;
         feature_index++;
       }
-
     }
   }
+  //     // need to add
+  //     if(!gameFont.loadFromFile("path/to/font.ttf")) {
+  //       std::cerr << "Failed to load font." << std::endl;
+  //     }
+
+  //     // Load game over sound (need to add)
+  //     if(!gameOverSoundBuffer.loadFromFile("path/to/sound.wav")) {
+  //       std::cerr << "Failed to load game over sound." << std::endl;
+  //     }
+  //     gameOverSound.setBuffer(gameOverSoundBuffer);
+  //   }
+  // }
 }
 
 //Generates random position for objects/players in a spot with an empty tile
@@ -125,6 +137,10 @@ Game::Game() {
   //load collectable items
   collectables = new Collectable*[12];
   load_collectables();
+
+  for (int i = 0; i < bots.size(); i++) {
+      bots.push_back(EasyBot());
+  }
 
   // Load "human player" into game
   sf::Vector2f player_pos = generate_position();
@@ -344,6 +360,12 @@ void Game::render_objects(sf::RenderWindow &app){
   }
 }
 
+void Game::spawnBot() {
+    EasyBot newBot;
+    bots.push_back(newBot);
+}
+
+
 //Collect any nearby objects
 void Game::collectObject(Person* player){
 
@@ -390,6 +412,25 @@ if(gun != nullptr){
  }  
 }
 
+if (bulletHitsPlayer) {
+    player->takeDamage(bulletDamage);
+    if (player->isDead()) {
+        gameOver();
+    }
+}
+
+}
+
+void Game::updateBots() {
+    for (EasyBot &bot : bots) {
+        bot.update();
+    }
+}
+
+void Game::renderBots(sf::RenderWindow &window) {
+    for (EasyBot &bot : bots) {
+        window.draw(bot.getSprite());
+    }
 }
 
 //Called by human player (to collect nearby objects)
@@ -400,4 +441,42 @@ void Game::collectObject(){
 //Called by human player (to swap guns)
 void Game::swap_gun(){
   human->swapGun();
+}
+
+void Game::gameOver() {
+    // Display a game-over message
+    sf::Text gameOverText;
+    gameOverText.setString("GAME OVER");
+    gameOverText.setFont(gameFont); 
+    gameOverText.setPosition(width / 2, height / 2); 
+    gameOverText.setCharacterSize(24); 
+    gameOverText.setFillColor(sf::Color::Red); 
+
+    // Play the game-over sound (assuming you have one)
+    gameOverSound.play();
+
+    // Refresh the window to show the game over screen
+    window.display();
+
+    sf::sleep(sf::seconds(3)); 
+    restartGame();
+}
+
+void Game::restartGame() {
+    // Reset player attributes
+    sf::Vector2f player_pos = generate_position();
+    human->setPosition(player_pos); // Assuming you have a setPosition function
+    human->setHealth(100); // Reset health. Assuming you have a setHealth function
+    // ... reset other attributes like inventory, score, etc.
+
+    // Reload the level/map and all collectables and states
+    map = TileMap(); // Reload the map
+    map.load("Assets/Tileset.png", sf::Vector2u(16, 16), 90, 50);
+    load_features();  // Reload features
+    load_collectables(); // Reload collectables
+
+    // Clear the window and display the restarted game state
+    window.clear();
+    window.display();
+
 }

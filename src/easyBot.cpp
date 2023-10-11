@@ -1,16 +1,17 @@
-#include "easyBot.h"
+#include "../Headers/easyBot.h"
 #include <cstdlib>  
 #include <cmath>   
 
-EasyBot::EasyBot() : Person() {
+EasyBot::EasyBot() : Person(0, 0.0f, 0.0f) {  // Using dummy values
 }
+
 
 void EasyBot::update() {
     move();
     attack();
 }
 
-sf::Sprite EasyBot::move() {
+void EasyBot::move(movement::Direction direction) {
     // Simple movement behavior
     int random = rand() % 100; 
     if (random < 5) {
@@ -18,11 +19,14 @@ sf::Sprite EasyBot::move() {
     }
 }
 
-void EasyBot::attack() {
+Bullet* EasyBot::attack() {
     int random = rand() % 100;
     if (random < 10) {  
         float deviation = (rand() % 20 - 10) * (M_PI / 180);  
         shootBullet();
-        bulletDirection = sf::Vector2f(cos(Rot + deviation), sin(Rot + deviation));
+        bulletDirection = sf::Vector2f(cos(get_rotation() + deviation), sin(get_rotation() + deviation));
     }
-}
+};
+
+
+

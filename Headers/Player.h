@@ -25,6 +25,9 @@ class Player : public Person{
         sf::Sprite hsprite;
         sf::Sprite pistolsprite;
         sf::Sprite rapidsprite;
+        
+        // 
+        sf::Vector2f position;
 
     public:
         Player(int width, int height, float x, float y, int id);
@@ -34,6 +37,9 @@ class Player : public Person{
         void showHealth(sf::RenderWindow& app, int width, int height);
         void showAmmo(sf::RenderWindow& app, int width, int height);
         void showGun(sf::RenderWindow& app, int width, int height);
+
+        void setPosition(const sf::Vector2f& position); // Assuming you're using sf::Vector2f for positions
+        void setHealth(int health);
         
      
 };

@@ -62,6 +62,14 @@ void Person::move(movement::Direction direction){
     }
 }
 
+void Person::update() {
+}
+
+sf::Sprite Person::getSprite() {
+    return sprite;  
+}
+
+
 //Get player position
 float Person::get_x(){
     return sprite.getPosition().x;
@@ -144,6 +152,24 @@ void Person::swapGun(){
     app.draw(sprite);
  }
 
+// damage implementation
+void Person::takeDamage(int amount) {
+    health -= amount;
+    if (health < 0) health = 0; // ensure health doesn't go negative
+}
+
+// to check if person is at 0 health (therefore dead)
+bool Person::isDead() {
+    return health <= 0;
+}
+
+void Person::setMovement(movement::Direction direction) {
+    currentDirection = direction;
+}
+
+Bullet* Person::shootBullet() {
+    return attack();  
+}
 
 
 

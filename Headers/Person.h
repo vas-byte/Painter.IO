@@ -32,20 +32,27 @@ class Person {
         //Player sprite
         sf::Sprite sprite;
         sf::Texture texture;
+
+        movement::Direction currentDirection;
+        sf::Vector2f bulletDirection;
             
     public:
         Person(int id, float x, float y);
 
         //Attack methods
-        Bullet* attack();
+        virtual Bullet* attack();
         bool canAttack();
         void swapGun();
+        // virtual void attack();
 
         //Get player's status 
         int get_health();
 
+        virtual void setMovement(movement::Direction direction);
+        Bullet* shootBullet();
+
         //Move player
-        void move(movement::Direction direction);
+        virtual void move(movement::Direction direction);
         void render(sf::RenderWindow& app);
 
         //Get Player Position
@@ -59,11 +66,19 @@ class Person {
         void set_collision(bool collision_status);
         float get_previous_dir();
         void set_previous_dir(float dir);
+        void takeDamage(int amount);
+        bool isDead();
 
         //Player collectables
         bool accept_collectables(Gun* gun);
         bool accept_collectables(Health* health);
         bool accept_collectables(Ammo* ammo);
+
+        virtual void update();
+        virtual sf::Sprite getSprite();
+
+        // virtual void move(movement::Direction direction);
+        // virtual Bullet* shootBullet();
 
 };
 

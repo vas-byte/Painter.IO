@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 
-
 Player::Player(int width, int height, float x, float y, int id) : Person(id, x, y) {
   //Load font for HUD text
   font.loadFromFile("Assets/Fonts/arial.ttf");
@@ -18,6 +17,7 @@ Player::Player(int width, int height, float x, float y, int id) : Person(id, x, 
   rapidsprite.setTexture(rapidTexture);
 
   //Set position and size of HUD images
+  position = sf::Vector2f(0, 0);
   bsprite.setOrigin(sf::Vector2f(8.f, 8.f));
   hsprite.setOrigin(sf::Vector2f(8.f, 8.f));
   pistolsprite.setOrigin(sf::Vector2f(8.f, 8.f));
@@ -71,4 +71,12 @@ void Player::showGun(sf::RenderWindow& app, int width, int height){
   //Only renders machine gun sprite if player has the machine gun
   if(hasSecondary)
     app.draw(rapidsprite);
+}
+
+void Player::setPosition(const sf::Vector2f& position) {
+    this->position = position;
+}
+
+void Player::setHealth(int health) {
+    this->health = health;
 }
