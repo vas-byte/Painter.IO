@@ -1,9 +1,6 @@
 #ifndef COMMON_H
 #define COMMON_H
-    
-    #include <math.h>
-
-   
+#include <math.h>
 
     //Defines fire rate of gun based off time restriction for calling attack()
     enum fireRate{
