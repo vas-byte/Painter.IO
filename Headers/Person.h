@@ -83,5 +83,3 @@ class Person {
 };
 
 #endif
-
-//TODO create player class which outputs ammo and health

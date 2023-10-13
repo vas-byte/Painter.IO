@@ -42,7 +42,7 @@ class Game{
         void load_collectables();
         void gameOver();
         void restartGame();
-        std::vector<EasyBot> bots;
+        std::vector<EasyBot*> bots;
 
         //Player related properties
         Player* human;

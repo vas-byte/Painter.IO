@@ -139,7 +139,7 @@ Game::Game() {
   load_collectables();
 
   for (int i = 0; i < bots.size(); i++) {
-      bots.push_back(EasyBot());
+      bots.push_back(new EasyBot());
   }
 
   // Load "human player" into game
@@ -158,7 +158,16 @@ Game::~Game() {
     delete map_objects[i];
   }
 
+  for(int i = 0; i < 12; i++){
+    delete collectables[i];
+  }
+
+  for (EasyBot* bot : bots) {
+    delete bot;
+  }
+
   delete map_objects;
+  delete collectables;
 }
 
 // Returns display size
@@ -361,7 +370,7 @@ void Game::render_objects(sf::RenderWindow &app){
 }
 
 void Game::spawnBot() {
-    EasyBot newBot;
+    EasyBot* newBot = new EasyBot;
     bots.push_back(newBot);
 }
 
@@ -422,14 +431,14 @@ if (bulletHitsPlayer) {
 }
 
 void Game::updateBots() {
-    for (EasyBot &bot : bots) {
-        bot.update();
+    for (EasyBot* bot : bots) {
+        bot->update();
     }
 }
 
 void Game::renderBots(sf::RenderWindow &window) {
-    for (EasyBot &bot : bots) {
-        window.draw(bot.getSprite());
+    for (EasyBot* bot : bots) {
+        window.draw(bot->getSprite());
     }
 }
 
