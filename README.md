@@ -35,13 +35,11 @@ Dive into the colorful world of paintball, where players can buy equipment, enga
 ---
 
 ## Installation
-Not applicable as the game is under development.
-
-## Usage
-Not applicable as the game is under development.
+- **Starting**: To get started clone the repository in your chosen IDE. 
+- **MakeFile**: Once the repository has been cloned, utilise the make file to run the game and begin playing!
 
 ## Feedback
-Not applicable as the game is under development.
+- **Always Welcomed**: If you have any feedback that you feel will benefit the game and user experience do not hesistate to suggest any! 
 
 ---
 
