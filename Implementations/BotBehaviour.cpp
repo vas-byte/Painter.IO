@@ -5,6 +5,13 @@ BotBehaviour::BotBehaviour(int id, float x, float y) : Person(id,x,y){
     sprite.setColor(sf::Color::Blue);
 }
 
+BotBehaviour::~BotBehaviour(){
+  for(Bullet* bullet : bullets){
+    delete bullet;
+  }
+}
+
+//randomly generates direction for bot to move (roam)
 void BotBehaviour::reset_direction(){
     switch (rand() % 4) {
       case movement::up:
@@ -22,6 +29,8 @@ void BotBehaviour::reset_direction(){
     }
 }
 
+//Sets initial direction of bot movement based on which direction has the longest distance
+//To edge of map
 void BotBehaviour::set_initial_direction(float x, float y, int width, int height){
   int length_left = x;
   int length_right = width - x;

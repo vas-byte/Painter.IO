@@ -11,6 +11,7 @@ HardBot::HardBot(int id, float x, float y, int width, int height) : BotBehaviour
         followX = false;
     }
 
+
 //Determins whether to roam() the bot or followPlayer()
 void HardBot::move_bot(tileFeature** map_objects, int num_objs, int width, int height, Person* human, BotBehaviour** bots, int numBots){
 

@@ -9,6 +9,8 @@ EasyBot::EasyBot(int id, float x, float y, int width, int height) : BotBehaviour
         set_initial_direction(x,y,width,height);
     }
 
+
+
 //Determins whether to roam() the bot or followPlayer()
 void EasyBot::move_bot(tileFeature** map_objects, int num_objs, int width, int height, Person* human, BotBehaviour** bots, int numBots){
 

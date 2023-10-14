@@ -75,5 +75,8 @@ int main() {
     window.display();
   }
 
+
+  //something in Game destructor causes trace trap
+  
   return 0;
 }

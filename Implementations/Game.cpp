@@ -2,9 +2,6 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include <cstdlib>
-#include <chrono>
-#include <thread>
 #include "../Headers/Bullet.h"
 #include "../Headers/Common.h"
 #include "../Headers/Object.h"
@@ -56,7 +53,6 @@ Game::Game() {
   sf::Vector2f bot_pos = generate_position();
   bots[0] = new HardBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
   numBots = 1;
-  std::this_thread::sleep_for(std::chrono::milliseconds(100));
   sf::Vector2f bot_pos2 = generate_position();
   bots[1] = new HardBot(generate_id(), bot_pos2.x, bot_pos2.y, width, height);
   numBots = 2;
@@ -114,20 +110,24 @@ sf::Vector2f Game::generate_position(){
     bool noCollectable = true;
     bool noBots = true;
 
+    //Generates random position
     int x = 50 + rand() % 1200;
     int y = 50 + rand() % 650;
     
+    //Series of checks to ensure random position not already used
 
-    for(int i = 0; i < 91; i++){
+
+    //checks if map tile (wall) has this coordinate
+    for(int i = 0; i < num_features; i++){
       if(x == map_objects[i]->get_x() || y == map_objects[i]->get_y()){
         noTile = false;
         break;
       }
     }
-
     if(!noTile)
       continue;
     
+     //checks if a collectable object has this coordinate
     for(int i = 0; i < num_collectables; i++){  
       if(collectables[i]->get_x() == x || collectables[i]->get_y() == y){
         noCollectable = false;
@@ -135,13 +135,16 @@ sf::Vector2f Game::generate_position(){
       }
 
     }
-
     if(!noCollectable)
       continue;
 
+
+    //Checks if a player has this coordinate
     if(humanInit && human->get_x() == x && human->get_y() == y)
       continue;
 
+
+    //Checks if a bot has this coordinate
     for(int i = 0; i < numBots; i++){
       if(x == bots[i]->get_x() && y == bots[i]->get_y()){
         noBots = false;
@@ -149,10 +152,10 @@ sf::Vector2f Game::generate_position(){
       }
         
     }
-
     if(!noBots)
       continue;
     
+    //If not the coordinate is returned
     return sf::Vector2f(x,y);
   }
 
@@ -244,12 +247,15 @@ void Game::swap_gun(){
   human->swapGun();
 }
 
+
+//Shows bots on screen
 void Game::render_bots(sf::RenderWindow &app){
   for(int i = 0; i < 2; i++){
     bots[i]->render(app, width, height, map_objects, num_features, human, bots, numBots);
   }
 }
 
+//Moves the bots after each frame
 void Game::move_bots(){
   for(int i = 0; i < 2; i++){
     bots[i]->move_bot(map_objects,num_features,width,height,human,bots,numBots);

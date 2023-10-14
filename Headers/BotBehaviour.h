@@ -48,6 +48,7 @@ class BotBehaviour : public Person{
 
         //Constructor
         BotBehaviour(int id, float x, float y);
+        virtual ~BotBehaviour();
 
         //Renders bot
         void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots) override;
