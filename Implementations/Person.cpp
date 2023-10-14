@@ -18,8 +18,9 @@ Person::Person(int id, float x, float y){
 
 Person::~Person(){
   //Clear dynamic memory for bullets
-  for(Bullet* bullet : bullets){
-    delete bullet;
+  for(int i = 0; i < bullets.size(); i++){
+    delete bullets.at(i);
+    bullets.erase(bullets.begin() + i);
   }
 }
 

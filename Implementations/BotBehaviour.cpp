@@ -8,11 +8,9 @@ BotBehaviour::BotBehaviour(int id, float x, float y) : Person(id,x,y){
 
 //Virtual destructor for Bots (frees allocated memory for bullets)
 BotBehaviour::~BotBehaviour(){
-  if(bullets.size() == 0)
-    return;
-  
-  for(Bullet* bullet : bullets){
-    delete bullet;
+  for(int i = 0; i < bullets.size(); i++){
+    delete bullets.at(i);
+    bullets.erase(bullets.begin() + i);
   }
 }
 
