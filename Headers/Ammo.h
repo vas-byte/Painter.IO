@@ -3,7 +3,7 @@
 
 #include "Collectable.h"
 
-//For ammo droplet boosts
+//Used for ammo droplet boosts
 class Ammo : public Collectable{
     private:
         int bullets;

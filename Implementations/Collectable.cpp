@@ -8,7 +8,6 @@ Collectable::Collectable(int id, bool isCollected){
     passthrough = true;
     x = 0;
     y = 0;
-    rectangle.setSize(sf::Vector2f(16, 16));
     rectangle.setPosition(x,y);
 }
 
@@ -20,8 +19,7 @@ Collectable::Collectable(int id, bool isCollected){
     this->x = x;
     this->y = y;
     recttexture.loadFromFile(texture);
-    rectangle.setTexture(&recttexture);
-    rectangle.setSize(sf::Vector2f(16, 16));
+    rectangle.setTexture(recttexture);
     rectangle.setPosition(x,y);
  }
 
@@ -34,18 +32,17 @@ float Collectable::get_y(){
     return y;
 }
 
-sf::RectangleShape Collectable::get_bounds(){
-    return rectangle;
-}
-
+//Render sprite for collectable object
 void Collectable::render(sf::RenderWindow& app){
     app.draw(rectangle);
 }
 
+//Return if object has been collected
  bool Collectable::get_collected_status(){
     return isCollected;
  }
 
+//Hides object from being collectable and rendered
  void Collectable::collect(){
     isCollected = true;
  }

@@ -11,16 +11,21 @@
 #include "Gun.h"
 #include "Ammo.h"
 #include "Health.h"
-class Person {
+
+//Forward declare Player and BotBehaviour to include in render signature 
+class BotBehaviour;
+class Person : public Object{
     protected:
         //Player Health
         int health;
+        virtual void updateHealth(int health);
 
         //Player Gun
         std::array<Gun, 2> gun_inventory;
         int selectedGun;
         sf::Clock clock;
         bool hasSecondary;
+        std::vector<Bullet*> bullets;
 
         //Setting Future Player movement
         bool isCollided;
@@ -35,38 +40,38 @@ class Person {
             
     public:
         Person(int id, float x, float y);
+        ~Person();
 
         //Attack methods
-        Bullet* attack();
+        void attack();
         bool canAttack();
         void swapGun();
 
-        //Get player's status 
+        //Modify/Read player's health status 
         int get_health();
+        bool isDead();
+        virtual void takeDamage(int damage);
 
         //Move player
-        void move(movement::Direction direction);
-        void render(sf::RenderWindow& app);
+        void move(movement::Direction direction, tileFeature** map_objects, int width, int height);
+
+        //Render player (defined in Player and BotBehaviour classes)
+        virtual void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots) = 0;
 
         //Get Player Position
         float get_x();
         float get_y();
         float get_rotation();
-        sf::FloatRect get_bounds();
 
-        //Player collision status
-        bool get_collision();
-        void set_collision(bool collision_status);
-        float get_previous_dir();
-        void set_previous_dir(float dir);
+        //Player collision status 
+        bool checkFutureCollision(movement::Direction direction, tileFeature** map_objects);
+        bool detectPlayerCollision(Object* obj);
+        bool isInsideMap(movement::Direction direction, int width, int height);
 
-        //Player collectables
-        bool accept_collectables(Gun* gun);
-        bool accept_collectables(Health* health);
-        bool accept_collectables(Ammo* ammo);
+        //Collect collectable objects
+        void collectObject(Collectable** collectables, std::map<int, Ammo*> ammo, std::map<int, Health*> health, std::map<int, Gun*> guns);
 
 };
 
 #endif
 
-//TODO create player class which outputs ammo and health

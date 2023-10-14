@@ -6,7 +6,7 @@
 //For Health point boosts
 class Health : public Collectable{
     private:
-        int hp;
+        int hp; 
     
     public:
         Health(int id, bool isCollected, float x, float y);

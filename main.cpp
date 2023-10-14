@@ -45,7 +45,7 @@ int main() {
     
     //Listen for keyboard input to shoot
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-     game.set_bullet();
+     game.shootBullet();
     }
 
     //Listen for keyboard input to pickup objects
@@ -53,6 +53,8 @@ int main() {
      game.collectObject();
     }
 
+    //Move the bots
+    game.move_bots();
   
     //Clear previous frame
     window.clear();
@@ -63,11 +65,11 @@ int main() {
     //render collectable objects
     game.render_objects(window);
 
-    //Render bullets
-    game.show_bullet(window);
-
     //Render player movement and HUD
     game.renderPlayer(window);
+
+    //Render bots
+    game.render_bots(window);
     
     //Show new frame
     window.display();

@@ -4,6 +4,7 @@ Health::Health(int id, bool isCollected, float x, float y) : Collectable(id, isC
     hp = 20;
 }
 
+//Returns healthpoint boost of collectable
 int Health::get_health(){
     return hp;
 }

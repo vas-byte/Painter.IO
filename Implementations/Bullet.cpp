@@ -1,10 +1,10 @@
 #include "../Headers/Bullet.h"
+#include "../Headers/tileFeature.h"
 
-
-Bullet::Bullet(float x, float y, float rot){
+Bullet::Bullet(float x, float y, float rot, int damage){
     bTexture.loadFromFile("Assets/Individual Icons and Particles/BulletProjectile.png");
     bullet.setTexture(bTexture);
-    isExploded = false;
+    this->damage = damage;
 
     setPosition(x,y,rot);
 }
@@ -34,13 +34,10 @@ void Bullet::setPosition(float x, float y, float rot){
     }
 }
 
+//Moves bullet in direction shot
 sf::Sprite Bullet::shootBullet(){
-    if(!isExploded)
-        bullet.move(bulletDirection);
-    // std::cout << "Pos" << bullet.getPosition().x << " " << bullet.getPosition().y << std::endl;
-    // std::cout << "Direction" << bulletDirection.x << " " << bulletDirection.y << std::endl;
+    bullet.move(bulletDirection);
     return bullet;
-    
 }
 
 //Checks if SFML still needs to render bullet (is it still visible in the map)
@@ -53,16 +50,31 @@ bool Bullet::isInsideMap(int width, int height){
     return true;
 }
 
- sf::FloatRect Bullet::get_bounds(){
-    return bullet.getGlobalBounds();
+//Check collision with tile
+ bool Bullet::checkCollision(tileFeature** map_objects){
+  for(int i = 0; i < 91; i++){
+    
+    //Check if bullet is close to any tiles
+    if(abs(bullet.getPosition().x - map_objects[i]->get_x()) < 10 && abs(bullet.getPosition().y - map_objects[i]->get_y()) < 10){
+      return true;
+    }
+  }
+
+  return false;
+}
+
+//Check collision with generic object (used for player)
+ bool Bullet::checkCollision(Object* obj){
+
+  if(abs(bullet.getPosition().x - obj->get_x()) < 16 && abs(bullet.getPosition().y - obj->get_y()) < 16){
+    return true;
+  } else {
+    return false;
+  } 
+
  }
 
-//Sets Explosion to true
- void Bullet::set_exploded(){
-    isExploded = true;
- }
-
-//returns status of explosion
- bool Bullet::get_exploded(){
-    return isExploded;
- }
+//Get damage of gun that shot bullet
+int Bullet::get_damage(){
+  return damage;
+}

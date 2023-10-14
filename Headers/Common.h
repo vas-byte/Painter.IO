@@ -3,7 +3,7 @@
     
     #include <math.h>
 
-   
+   //Stores some common variables/functions
 
     //Defines fire rate of gun based off time restriction for calling attack()
     enum fireRate{

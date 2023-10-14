@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "Person.h"
-
+#include "BotBehaviour.h"
 class Player : public Person{
     private:
 
@@ -34,6 +34,7 @@ class Player : public Person{
         void showHealth(sf::RenderWindow& app, int width, int height);
         void showAmmo(sf::RenderWindow& app, int width, int height);
         void showGun(sf::RenderWindow& app, int width, int height);
+        void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots);
         
      
 };

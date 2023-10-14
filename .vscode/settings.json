@@ -62,7 +62,8 @@
         "span": "cpp",
         "valarray": "cpp",
         "future": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "set": "cpp"
     },
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "enabledIfIncludesResolve"
 }

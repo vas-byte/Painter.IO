@@ -12,10 +12,14 @@ class Object{
         int id;
         
     public:
+        //Retrieves unique ID of object
         int get_id();
-        virtual sf::RectangleShape get_bounds() = 0;
+
+        //retrieves position of object
         virtual float get_x() = 0;
         virtual float get_y() = 0;
+
+        //retireves whether an object is passthrough
         bool isPassthrough();
         
 };

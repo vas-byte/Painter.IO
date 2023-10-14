@@ -10,6 +10,7 @@
 #include "Common.h"
 #include "Health.h"
 #include "Ammo.h"
+#include "EasyBot.h"
 class Game{
     private:
         //Map and frame characteristics
@@ -22,7 +23,6 @@ class Game{
         
         //in-game object properties
         int obj_id;
-        std::vector<Bullet*> bullets;
         tileFeature** map_objects;
         Collectable** collectables;
         std::map<int,Gun*> collectable_guns;
@@ -33,8 +33,12 @@ class Game{
 
         //Player related properties
         Player* human;
-        bool detectPlayerCollision(Person* entity, Object* obj);
-        bool isInsideMap(movement::Direction direction);
+        bool humanInit;
+       
+        //Bot related properties
+        BotBehaviour** bots;
+        int numBots;
+        
         
     
     public:
@@ -47,9 +51,9 @@ class Game{
 
         //in game object properties
         int generate_id();
-        void set_bullet();
-        void show_bullet(sf::RenderWindow &app);
-        bool bulletCollision(Bullet* bullet);
+
+        //Renders bullet in game
+        void shootBullet();
 
         //Map properties
         TileMap get_map();
@@ -57,14 +61,15 @@ class Game{
         
         //Player properties
         void renderPlayer(sf::RenderWindow &app);
-        bool checkCollision(movement::Direction direction);
-        void collectObject(Person* player);
         
-
         //Human Player properties
         void collectObject();
         void movePlayer(movement::Direction direction);
         void swap_gun();
+
+        //Bot functionality
+        void render_bots(sf::RenderWindow &app);
+        void move_bots();
        
 };
 

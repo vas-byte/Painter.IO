@@ -72,3 +72,43 @@ void Player::showGun(sf::RenderWindow& app, int width, int height){
   if(hasSecondary)
     app.draw(rapidsprite);
 }
+
+void Player::render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots){
+  app.draw(sprite);
+  bool showBullet = true;
+  
+  for (int i = 0; i < bullets.size(); i++) {
+
+    //Check if collided with bots
+    for(int j = 0; j < 2; j++){
+
+      if(bullets.at(i)->checkCollision(bots[j])){
+        //If So do not render & take damage
+        bots[j]->takeDamage(bullets.at(i)->get_damage());
+        showBullet = false;
+      }
+    }
+
+    //Check if bullet within map (otherwise remove from rendering queue to save compute time)
+    if (!bullets.at(i)->isInsideMap(width, height)) {
+      showBullet = false;
+    }
+
+    //Check if collided with map tiles
+    if(bullets.at(i)->checkCollision(map_objects)){
+      //If so don't render
+      showBullet = false;
+    }
+
+    //Delete bullets not to be rendered
+    if(!showBullet){
+      delete bullets.at(i);
+      bullets.erase(bullets.begin() + i);
+      continue;
+    }
+
+    // Render moving bullet (if not exploded)
+    app.draw(bullets.at(i)->shootBullet());
+      
+  }
+}

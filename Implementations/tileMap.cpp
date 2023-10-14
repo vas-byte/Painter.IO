@@ -4,6 +4,7 @@
 #include <vector>
 #include "../Headers/Object.h"
 
+//Load map data from JSON
 void TileMap::load_tileMap(){
     //init JSON object
     nlohmann::json j;
@@ -31,6 +32,7 @@ void TileMap::load_tileMap(){
     }
 }
 
+//Load map data into array
 bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, unsigned int width, unsigned int height)
 {
     //Load tileset arrangement into array
@@ -74,8 +76,7 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, unsigned i
     return true;
 }
 
-
-
+//Draws the map 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // apply the transform

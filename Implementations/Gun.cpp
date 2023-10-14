@@ -36,22 +36,27 @@ Gun::Gun() : Collectable(-1, false){
      damage = 15;
 }
 
+//Returns damage done by gun bullet
 int Gun::get_damage(){
     return damage;
 }
 
+//Returns ammo count of gun bullet
 int Gun::get_ammo(){
     return ammo;
 }
 
+//Returns fire rate of run (ie cooldown time after shot)
 float Gun::get_rate(){
     return rate;
 }
 
+//Reduces ammo count
 void Gun::shoot(){
     ammo--;
 } 
 
+//Increases gun ammo
 void Gun::add_ammo(int ammo){
     this->ammo += ammo;
 }
