@@ -60,23 +60,27 @@ Game::Game() {
 
 // Default destructor for game
 Game::~Game() {
-  // clear any dynamically allocated memory
 
+  //clear memory occupied by map tile features inside array
   for (int i = 0; i < num_features; i++) {
     delete map_objects[i];
   }
 
+  //clear memory occupied by collectables (ammo, health, guns) inside array
   for(int i = 0; i < num_collectables; i++){
     delete collectables[i];
   }
 
+  //clear memory occupied by bots inside array
   for(int i = 0; i < numBots; i++){
     delete bots[i];
   }
 
+  //Clear the arrays themselves for the objects above
   delete map_objects;
   delete collectables;
   delete bots;
+  
 }
 
 //Load map features (wall tiles) into array

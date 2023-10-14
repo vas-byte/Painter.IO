@@ -1,5 +1,6 @@
 #include "../Headers/Common.h"
 
+//Converts direction enum (0,1,2,3) to angle
  float direction_to_angle(movement::Direction direction){
     switch (direction)
     {

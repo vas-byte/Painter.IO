@@ -6,7 +6,10 @@
 
 HardBot::HardBot(int id, float x, float y, int width, int height) : BotBehaviour(id,x,y)
     {
+        //Sets initial direction to the direction with the longest distance untill the end of the map
         set_initial_direction(x,y,width,height);
+
+        //Establishes that the bot instance is not following a player yet along any axis
         isAlreadyFollowing = false;
         followX = false;
     }
@@ -37,16 +40,19 @@ void HardBot::move_bot(tileFeature** map_objects, int num_objs, int width, int h
 //Moves bot randomly
 void HardBot::roam(tileFeature** map_objects, int num_objs, int width, int height) {
   
+  //Resets direction if bot has collided with wall
   if(isCollided){
     reset_direction();
     time_direction.restart();
   }
 
+ //Time restriction on direction change to prevent sporradic movment
   if (time_direction.getElapsedTime().asSeconds() >= 1) {
     reset_direction();
     time_direction.restart();
   }
 
+//Moves the bot in a direction specified by reset_direction()
   switch (direction) {
     case movement::up:
       Person::move(movement::up, map_objects, num_objs, width, height);

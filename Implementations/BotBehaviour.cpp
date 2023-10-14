@@ -1,10 +1,12 @@
 #include "../Headers/BotBehaviour.h"
 #include "../Headers/Player.h"
 
+//Virtual constructor for bots - sets them all to blue
 BotBehaviour::BotBehaviour(int id, float x, float y) : Person(id,x,y){
     sprite.setColor(sf::Color::Blue);
 }
 
+//Virtual destructor for Bots (frees allocated memory for bullets)
 BotBehaviour::~BotBehaviour(){
   if(bullets.size() == 0)
     return;
@@ -59,6 +61,7 @@ void BotBehaviour::set_initial_direction(float x, float y, int width, int height
   }
 }
 
+//Renders bot movements & bullets shot
 void BotBehaviour::render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots){
   
   //Determines if bullet is in rendering queue
@@ -124,7 +127,7 @@ void BotBehaviour::render(sf::RenderWindow& app, int width, int height, tileFeat
   }
 }
 
-
+//Overrides takeDamage in person class (due to bots being different colour)
 void BotBehaviour::takeDamage(int damage){
   //Reduces bot opacity as damage increases
   sprite.setColor(sf::Color(0,0,255,50+health*2));
@@ -133,6 +136,7 @@ void BotBehaviour::takeDamage(int damage){
   health -= damage;
 }
 
+//Overrides updateHealth in person class (due to bots being different colour)
 void BotBehaviour::updateHealth(int health){
   this->health += health;
   if(this->health > 100) this->health = 100;
@@ -153,8 +157,9 @@ void BotBehaviour::gun_swap(){
   }
 }
 
+//Moves bot away from player when they are close
 void BotBehaviour::move_away(tileFeature** map_objects, int num_objs, float x, float y, int width, int height){
-  //Change direcion if collided
+  //Change direcion if collided with a wall object
   if(!isCollided){
    if(x - get_x() > 0) move(movement::left, map_objects, num_objs, width, height); 
    else move(movement::right, map_objects, num_objs, width, height);

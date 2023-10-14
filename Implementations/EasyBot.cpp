@@ -6,6 +6,7 @@
 
 EasyBot::EasyBot(int id, float x, float y, int width, int height) : BotBehaviour(id,x,y)
     {
+        //Sets the roam direction to the longest direction to the edge of the map
         set_initial_direction(x,y,width,height);
     }
 
@@ -35,11 +36,17 @@ void EasyBot::move_bot(tileFeature** map_objects, int num_objs, int width, int h
 
 //Moves bot randomly
 void EasyBot::roam(tileFeature** map_objects, int num_objs, int width, int height) {
+
+  //Applies time restriction on when bot changes direction (prevent sporradic movement)
   if (time_direction.getElapsedTime().asSeconds() >= 1) {
+    //Changes bot movement direction
     reset_direction();
+
+    //Reset timer whicb restricts direction of bot movement
     time_direction.restart();
   }
 
+  //Moves bot in direction using move() method from parent class person
   switch (direction) {
     case movement::up:
       Person::move(movement::up, map_objects, num_objs, width, height);
