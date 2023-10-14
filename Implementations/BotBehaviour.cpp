@@ -6,6 +6,9 @@ BotBehaviour::BotBehaviour(int id, float x, float y) : Person(id,x,y){
 }
 
 BotBehaviour::~BotBehaviour(){
+  if(bullets.size() == 0)
+    return;
+  
   for(Bullet* bullet : bullets){
     delete bullet;
   }
