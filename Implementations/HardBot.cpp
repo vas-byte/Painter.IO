@@ -12,7 +12,7 @@ HardBot::HardBot(int id, float x, float y, int width, int height) : BotBehaviour
     }
 
 //Determins whether to roam() the bot or followPlayer()
-void HardBot::move_bot(tileFeature** map_objects, int width, int height, Person* human, BotBehaviour** bots){
+void HardBot::move_bot(tileFeature** map_objects, int num_objs, int width, int height, Person* human, BotBehaviour** bots, int numBots){
 
     //Swap active gun if a better option is available or out of ammo
     swapGun();
@@ -21,20 +21,20 @@ void HardBot::move_bot(tileFeature** map_objects, int width, int height, Person*
     int yDist = abs(human->get_y() - get_y());
 
     if(xDist < 500 && xDist > 10 && yDist < 150 && yDist > 10){
-        followPlayer(human->get_x(), human->get_y(), map_objects, width, height);
+        followPlayer(human->get_x(), human->get_y(), map_objects, num_objs, width, height);
         return;
     }
 
     //If close to player move bot away
     if(xDist < 10 && yDist < 10){
-        move_away(map_objects, human->get_x(),human->get_y(),width,height);
+        move_away(map_objects, num_objs, human->get_x(),human->get_y(),width,height);
     }
     
-    roam(map_objects, width, height);
+    roam(map_objects, num_objs, width, height);
 }
 
 //Moves bot randomly
-void HardBot::roam(tileFeature** map_objects, int width, int height) {
+void HardBot::roam(tileFeature** map_objects, int num_objs, int width, int height) {
   
   if(isCollided){
     reset_direction();
@@ -48,27 +48,27 @@ void HardBot::roam(tileFeature** map_objects, int width, int height) {
 
   switch (direction) {
     case movement::up:
-      Person::move(movement::up, map_objects, width, height);
+      Person::move(movement::up, map_objects, num_objs, width, height);
       break;
     case movement::down:
-      Person::move(movement::down, map_objects, width, height);
+      Person::move(movement::down, map_objects, num_objs, width, height);
       break;
     case movement::left:
-      Person::move(movement::left, map_objects, width, height);
+      Person::move(movement::left, map_objects, num_objs, width, height);
       break;
     case movement::right:
-      Person::move(movement::right, map_objects, width, height);
+      Person::move(movement::right, map_objects, num_objs, width, height);
       break;
   }
 }
 
 //Follows player strategically (only in Y direction however)
-void HardBot::followPlayer(float x, float y, tileFeature** map_objects, int width, int height) {
+void HardBot::followPlayer(float x, float y, tileFeature** map_objects, int num_objs, int width, int height) {
     
     if(followX && isAlreadyFollowing){
-       followPlayerX(x,y,map_objects,width,height);
+       followPlayerX(x,y,map_objects,num_objs,width,height);
     } else if(!followX && isAlreadyFollowing) {
-       followPlayerY(x,y,map_objects,width,height);
+       followPlayerY(x,y,map_objects,num_objs,width,height);
     }
 
     //Calculate distance
@@ -79,16 +79,17 @@ void HardBot::followPlayer(float x, float y, tileFeature** map_objects, int widt
     if(xDelta < yDelta){
         followX = true;
         isAlreadyFollowing = true;
-        followPlayerX(x,y,map_objects,width,height);
+        followPlayerX(x,y,map_objects,num_objs,width,height);
     } else {
         followX = false;
         isAlreadyFollowing = true;
-        followPlayerY(x,y,map_objects,width,height);
+        followPlayerY(x,y,map_objects,num_objs,width,height);
     }
   
 }
 
-void HardBot::followPlayerX(float x, float y, tileFeature** map_objects, int width, int height){
+//Follows player in X direction
+void HardBot::followPlayerX(float x, float y, tileFeature** map_objects, int num_objs, int width, int height){
     //Determine what speed to move based on distance
     float spd = 0;
     int xDelta = (x - get_x());
@@ -120,7 +121,8 @@ void HardBot::followPlayerX(float x, float y, tileFeature** map_objects, int wid
         attack();
 }
 
-void HardBot::followPlayerY(float x, float y, tileFeature** map_objects, int width, int height){
+//Follows player in X direction
+void HardBot::followPlayerY(float x, float y, tileFeature** map_objects, int num_objs, int width, int height){
     
     //Determine what speed to move based on distance
     float spd = 0;

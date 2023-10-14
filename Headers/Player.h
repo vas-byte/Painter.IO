@@ -34,7 +34,7 @@ class Player : public Person{
         void showHealth(sf::RenderWindow& app, int width, int height);
         void showAmmo(sf::RenderWindow& app, int width, int height);
         void showGun(sf::RenderWindow& app, int width, int height);
-        void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots);
+        void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots);
         
      
 };

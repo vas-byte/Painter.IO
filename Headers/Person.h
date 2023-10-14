@@ -53,10 +53,10 @@ class Person : public Object{
         virtual void takeDamage(int damage);
 
         //Move player
-        void move(movement::Direction direction, tileFeature** map_objects, int width, int height);
+        void move(movement::Direction direction, tileFeature** map_objects, int num_objs, int width, int height);
 
         //Render player (defined in Player and BotBehaviour classes)
-        virtual void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots) = 0;
+        virtual void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots) = 0;
 
         //Get Player Position
         float get_x();
@@ -64,12 +64,12 @@ class Person : public Object{
         float get_rotation();
 
         //Player collision status 
-        bool checkFutureCollision(movement::Direction direction, tileFeature** map_objects);
+        bool checkFutureCollision(movement::Direction direction, tileFeature** map_objects, int num_objs);
         bool detectPlayerCollision(Object* obj);
         bool isInsideMap(movement::Direction direction, int width, int height);
 
         //Collect collectable objects
-        void collectObject(Collectable** collectables, std::map<int, Ammo*> ammo, std::map<int, Health*> health, std::map<int, Gun*> guns);
+        void collectObject(Collectable** collectables, int num_collectables, std::map<int, Ammo*> ammo, std::map<int, Health*> health, std::map<int, Gun*> guns);
 
 };
 

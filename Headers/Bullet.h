@@ -35,7 +35,7 @@
             sf::Sprite shootBullet();
 
             //Check if bullet has collided with map objects
-            bool checkCollision(tileFeature** map_objects);
+            bool checkCollision(tileFeature** map_objects, int num_objs);
 
             //Check collision with any entity derrived from Object class
             bool checkCollision(Object* object);

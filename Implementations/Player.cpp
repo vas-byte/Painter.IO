@@ -73,14 +73,14 @@ void Player::showGun(sf::RenderWindow& app, int width, int height){
     app.draw(rapidsprite);
 }
 
-void Player::render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots){
+void Player::render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots){
   app.draw(sprite);
   bool showBullet = true;
   
   for (int i = 0; i < bullets.size(); i++) {
 
     //Check if collided with bots
-    for(int j = 0; j < 2; j++){
+    for(int j = 0; j < numBots; j++){
 
       if(bullets.at(i)->checkCollision(bots[j])){
         //If So do not render & take damage
@@ -95,7 +95,7 @@ void Player::render(sf::RenderWindow& app, int width, int height, tileFeature** 
     }
 
     //Check if collided with map tiles
-    if(bullets.at(i)->checkCollision(map_objects)){
+    if(bullets.at(i)->checkCollision(map_objects, num_objs)){
       //If so don't render
       showBullet = false;
     }

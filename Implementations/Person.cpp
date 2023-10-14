@@ -4,7 +4,6 @@
 #include "../Headers/Gun.h"
 #include "../Headers/Object.h"
 
-
 Person::Person(int id, float x, float y){
     texture.loadFromFile("Assets/Individual Animations/Handgun1.png");
     sprite.setTexture(texture);
@@ -50,10 +49,10 @@ int Person::get_health(){
 };
 
 //moves the player
-void Person::move(movement::Direction direction, tileFeature** map_objects, int width, int height){
+void Person::move(movement::Direction direction, tileFeature** map_objects, int num_objs, int width, int height){
 
     //if not inside map or collided with an object and resolving the collision don't move
-    if(!isInsideMap(direction, width, height) || checkFutureCollision(direction, map_objects)) return;
+    if(!isInsideMap(direction, width, height) || checkFutureCollision(direction, map_objects, num_objs)) return;
 
     switch(direction){
         case movement::up:
@@ -90,10 +89,10 @@ float Person::get_rotation(){
 };
 
 //Collect droplets (ammo, health, guns) if nearby
-void Person::collectObject(Collectable** collectables, std::map<int, Ammo*> ammo, std::map<int, Health*> health, std::map<int, Gun*> guns){
+void Person::collectObject(Collectable** collectables, int num_collectables, std::map<int, Ammo*> ammo, std::map<int, Health*> health, std::map<int, Gun*> guns){
   int id = 0;
 
-  for(int i = 0; i < 12; i++){
+  for(int i = 0; i < num_collectables; i++){
 
     //Checks if object already collected
     if(collectables[i]->get_collected_status())
@@ -185,13 +184,13 @@ bool Person::detectPlayerCollision(Object* obj) {
 }
 
 // Checks if player will collide with object based on next move
-bool Person::checkFutureCollision(movement::Direction direction, tileFeature** map_objects) {
+bool Person::checkFutureCollision(movement::Direction direction, tileFeature** map_objects, int num_objs) {
   int next_rot = direction_to_angle(direction);
 
   //Check if player has already collided
   if (isCollided) {
       
-      for (int i = 0; i < 91; i++) {
+      for (int i = 0; i < num_objs; i++) {
 
         //Check player is out of range of collided barrier
         if (detectPlayerCollision(map_objects[i])) {
@@ -212,7 +211,7 @@ bool Person::checkFutureCollision(movement::Direction direction, tileFeature** m
     //Otherwise check if player will collide with a non "passthrough" object
   }  
 
-  for (int i = 0; i < 91; i++) {
+  for (int i = 0; i < num_objs; i++) {
 
     if (detectPlayerCollision(map_objects[i])) {
       prev_dir = get_rotation();

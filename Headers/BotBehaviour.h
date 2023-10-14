@@ -14,10 +14,10 @@
 class BotBehaviour : public Person{
     protected:
         //Moves bot in random direction for 1 second
-        virtual void roam(tileFeature** map_objects, int width, int height) = 0;
+        virtual void roam(tileFeature** map_objects, int num_objs, int width, int height) = 0;
 
         //Stratgically follows player for an attack
-        virtual void followPlayer(float x, float y, tileFeature** map_objects, int width, int height) = 0;
+        virtual void followPlayer(float x, float y, tileFeature** map_objects, int num_objs, int width, int height) = 0;
 
         //Determins random direction (used by roam)
         void reset_direction();
@@ -39,18 +39,18 @@ class BotBehaviour : public Person{
         
 
         //Bot moves away to reduce chance of collision
-        void move_away(tileFeature** map_objects, float x, float y, int width, int heigh);
+        void move_away(tileFeature** map_objects, int num_objs, float x, float y, int width, int heigh);
 
     public:
 
         //Determins whether to roam or follow the player
-        virtual void move_bot(tileFeature** map_objects, int width, int height, Person* human, BotBehaviour** bots) = 0;
+        virtual void move_bot(tileFeature** map_objects, int num_objs, int width, int height, Person* human, BotBehaviour** bots, int numBots) = 0;
 
         //Constructor
         BotBehaviour(int id, float x, float y);
 
         //Renders bot
-        void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots) override;
+        void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots) override;
 
         //Allows bot to take damage
         void takeDamage(int damage) override;

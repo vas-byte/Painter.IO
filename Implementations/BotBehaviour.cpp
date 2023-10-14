@@ -47,7 +47,7 @@ void BotBehaviour::set_initial_direction(float x, float y, int width, int height
   }
 }
 
-void BotBehaviour::render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, Person* human, BotBehaviour** bots){
+void BotBehaviour::render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots){
   
   //Determines if bullet is in rendering queue
   bool showBullet = true;
@@ -73,7 +73,7 @@ void BotBehaviour::render(sf::RenderWindow& app, int width, int height, tileFeat
     }
 
     //Check if collided with other bots
-    for(int j = 0; j < 2; j++){
+    for(int j = 0; j < numBots; j++){
 
       //Do not check for collision with current bot
       if(bots[j]->get_id() == id)
@@ -95,7 +95,7 @@ void BotBehaviour::render(sf::RenderWindow& app, int width, int height, tileFeat
     }
 
     //Check if collided with map tiles
-    if(bullets.at(i)->checkCollision(map_objects)){
+    if(bullets.at(i)->checkCollision(map_objects, num_objs)){
       //If so don't render
       showBullet = false;
     }
@@ -141,13 +141,13 @@ void BotBehaviour::gun_swap(){
   }
 }
 
-void BotBehaviour::move_away(tileFeature** map_objects, float x, float y, int width, int height){
+void BotBehaviour::move_away(tileFeature** map_objects, int num_objs, float x, float y, int width, int height){
   //Change direcion if collided
   if(!isCollided){
-   if(x - get_x() > 0) move(movement::left, map_objects, width, height); 
-   else move(movement::right, map_objects, width, height);
+   if(x - get_x() > 0) move(movement::left, map_objects, num_objs, width, height); 
+   else move(movement::right, map_objects, num_objs, width, height);
   } else {
-    if(y - get_y() > 0) move(movement::up, map_objects, width, height); 
-    else move(movement::down, map_objects, width, height);
+    if(y - get_y() > 0) move(movement::up, map_objects, num_objs, width, height); 
+    else move(movement::down, map_objects, num_objs, width, height);
   }
 }

@@ -10,7 +10,7 @@ EasyBot::EasyBot(int id, float x, float y, int width, int height) : BotBehaviour
     }
 
 //Determins whether to roam() the bot or followPlayer()
-void EasyBot::move_bot(tileFeature** map_objects, int width, int height, Person* human, BotBehaviour** bots){
+void EasyBot::move_bot(tileFeature** map_objects, int num_objs, int width, int height, Person* human, BotBehaviour** bots, int numBots){
 
     //Swap active gun if a better option is available or out of ammo
     swapGun();
@@ -19,15 +19,20 @@ void EasyBot::move_bot(tileFeature** map_objects, int width, int height, Person*
     int yDist = abs(human->get_y() - get_y());
 
     if(xDist < 500 && xDist > 30 && yDist < 100 && yDist > 10){
-        followPlayer(human->get_x(), human->get_y(), map_objects, width, height);
+        followPlayer(human->get_x(), human->get_y(), map_objects, num_objs, width, height);
         return;
     }
+
+    //If close to player move bot away
+    if(xDist < 10 && yDist < 10){
+        move_away(map_objects, num_objs, human->get_x(),human->get_y(),width,height);
+    }
     
-    roam(map_objects, width, height);
+    roam(map_objects, num_objs, width, height);
 }
 
 //Moves bot randomly
-void EasyBot::roam(tileFeature** map_objects, int width, int height) {
+void EasyBot::roam(tileFeature** map_objects, int num_objs, int width, int height) {
   if (time_direction.getElapsedTime().asSeconds() >= 1) {
     reset_direction();
     time_direction.restart();
@@ -35,22 +40,22 @@ void EasyBot::roam(tileFeature** map_objects, int width, int height) {
 
   switch (direction) {
     case movement::up:
-      Person::move(movement::up, map_objects, width, height);
+      Person::move(movement::up, map_objects, num_objs, width, height);
       break;
     case movement::down:
-      Person::move(movement::down, map_objects, width, height);
+      Person::move(movement::down, map_objects, num_objs, width, height);
       break;
     case movement::left:
-      Person::move(movement::left, map_objects, width, height);
+      Person::move(movement::left, map_objects, num_objs, width, height);
       break;
     case movement::right:
-      Person::move(movement::right, map_objects, width, height);
+      Person::move(movement::right, map_objects, num_objs, width, height);
       break;
   }
 }
 
 //Follows player strategically (only in Y direction however)
-void EasyBot::followPlayer(float x, float y, tileFeature** map_objects, int width, int height) {
+void EasyBot::followPlayer(float x, float y, tileFeature** map_objects, int num_objs, int width, int height) {
     
     //Calculate distance
     int yDelta = (y - get_y());

@@ -30,6 +30,9 @@ class Game{
         std::map<int,Health*> collectable_health;
         void load_features();
         void load_collectables();
+        const int num_features = 91;
+        int num_collectables;
+
 
         //Player related properties
         Player* human;

@@ -51,8 +51,8 @@ bool Bullet::isInsideMap(int width, int height){
 }
 
 //Check collision with tile
- bool Bullet::checkCollision(tileFeature** map_objects){
-  for(int i = 0; i < 91; i++){
+ bool Bullet::checkCollision(tileFeature** map_objects, int num_objs){
+  for(int i = 0; i < num_objs; i++){
     
     //Check if bullet is close to any tiles
     if(abs(bullet.getPosition().x - map_objects[i]->get_x()) < 10 && abs(bullet.getPosition().y - map_objects[i]->get_y()) < 10){

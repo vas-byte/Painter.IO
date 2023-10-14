@@ -1,9 +1,10 @@
 #include "../Headers/Game.h"
 #include <algorithm>
-#include <future>
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <chrono>
+#include <thread>
 #include "../Headers/Bullet.h"
 #include "../Headers/Common.h"
 #include "../Headers/Object.h"
@@ -16,14 +17,22 @@
 
 // Default constructor for game
 Game::Game() {
-  humanInit = false;
-  numBots = 0;
 
+  //Tracks whether or not human object created (for coordinate generation)
+  humanInit = false;
+
+  //Tracks number of bots and collectables
+  numBots = 0;
+  num_collectables = 0;
+
+  //Tracks assigned ID (ensures it is unique)
+  obj_id = 0;
+
+  //Resolution
   width = 1440;
   height = 800;
-  map = TileMap();
 
-  obj_id = 0;
+  map = TileMap();
 
   // Load game map
   map.load("Assets/Tileset.png", sf::Vector2u(16, 16), 90, 50);
@@ -47,32 +56,36 @@ Game::Game() {
   sf::Vector2f bot_pos = generate_position();
   bots[0] = new HardBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
   numBots = 1;
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
   sf::Vector2f bot_pos2 = generate_position();
   bots[1] = new HardBot(generate_id(), bot_pos2.x, bot_pos2.y, width, height);
   numBots = 2;
-
 }
 
 // Default destructor for game
 Game::~Game() {
   // clear any dynamically allocated memory
 
-  for (int i = 0; i < 91; i++) {
+  for (int i = 0; i < num_features; i++) {
     delete map_objects[i];
   }
 
-  for(int i = 0; i < 12; i++){
+  for(int i = 0; i < num_collectables; i++){
     delete collectables[i];
+  }
+
+  for(int i = 0; i < numBots; i++){
+    delete bots[i];
   }
 
   delete map_objects;
   delete collectables;
+  delete bots;
 }
 
 //Load map features (wall tiles) into array
 void Game::load_features() {
-  //Array index
-  int feature_index = 0;
+  int features_index = 0;
 
   //Loop through number of tiles 
   for (int col = 0; col < width / 16; col++) {
@@ -83,8 +96,8 @@ void Game::load_features() {
 
       //Check tile is a wall tile and load into object array
       if (feature != NULL) {
-        map_objects[feature_index] = feature;
-        feature_index++;
+        map_objects[features_index] = feature;
+        features_index++;
       }
 
     }
@@ -115,10 +128,7 @@ sf::Vector2f Game::generate_position(){
     if(!noTile)
       continue;
     
-    for(int i = 0; i < 12; i++){
-      if(collectables[i] == nullptr)
-        continue;
-      
+    for(int i = 0; i < num_collectables; i++){  
       if(collectables[i]->get_x() == x || collectables[i]->get_y() == y){
         noCollectable = false;
         break;
@@ -132,10 +142,7 @@ sf::Vector2f Game::generate_position(){
     if(humanInit && human->get_x() == x && human->get_y() == y)
       continue;
 
-    for(int i = 0; i < 2; i++){
-      if(numBots == i || numBots == 0)
-        continue;
-
+    for(int i = 0; i < numBots; i++){
       if(x == bots[i]->get_x() && y == bots[i]->get_y()){
         noBots = false;
         break;
@@ -162,6 +169,7 @@ void Game::load_collectables(){
     Health* health = new Health(id, false, pos.x, pos.y);
     collectables[i] = health;
     collectable_health[id] = health;
+    num_collectables++;
   }
 
   //Generate random ammo collectables
@@ -171,6 +179,7 @@ void Game::load_collectables(){
     Ammo* ammo = new Ammo(id, false, pos.x, pos.y);
     collectables[4 + i] = ammo;
     collectable_ammo[id] = ammo;
+    num_collectables++;
   }
 
   //Generate random gun collectables
@@ -180,6 +189,7 @@ void Game::load_collectables(){
     Gun* gun = new Gun(id, false, rapid, pos.x, pos.y);
     collectables[8 + i] = gun;
     collectable_guns[id] = gun;
+    num_collectables++;
   }
 }
 
@@ -207,13 +217,13 @@ void Game::renderPlayer(sf::RenderWindow& app) {
   human->showAmmo(app, width, height);
   human->showHealth(app, width, height);
   human->showGun(app, width, height);
-  human->render(app, width, height, map_objects, human, bots);
+  human->render(app, width, height, map_objects, num_features, human, bots, numBots);
 }
 
 // Checks if player is close to any tiles
 // Sets Player Movement from Keyboard
 void Game::movePlayer(movement::Direction direction) {
-  human->move(direction, map_objects, width, height);
+  human->move(direction, map_objects, num_features, width, height);
 }
 
 //Show collectable objects
@@ -226,7 +236,7 @@ void Game::render_objects(sf::RenderWindow &app){
 
 //Called by human player (to collect nearby objects)
 void Game::collectObject(){
-  human->collectObject(collectables,collectable_ammo,collectable_health,collectable_guns);
+  human->collectObject(collectables,num_collectables,collectable_ammo,collectable_health,collectable_guns);
 }
 
 //Called by human player (to swap guns)
@@ -236,13 +246,13 @@ void Game::swap_gun(){
 
 void Game::render_bots(sf::RenderWindow &app){
   for(int i = 0; i < 2; i++){
-    bots[i]->render(app, width, height, map_objects, human, bots);
+    bots[i]->render(app, width, height, map_objects, num_features, human, bots, numBots);
   }
 }
 
 void Game::move_bots(){
   for(int i = 0; i < 2; i++){
-    bots[i]->move_bot(map_objects,width,height,human,bots);
-    bots[i]->collectObject(collectables,collectable_ammo,collectable_health,collectable_guns);
+    bots[i]->move_bot(map_objects,num_features,width,height,human,bots,numBots);
+    bots[i]->collectObject(collectables,num_collectables,collectable_ammo,collectable_health,collectable_guns);
   }
 }
