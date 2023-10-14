@@ -12,6 +12,12 @@ class HardBot : public BotBehaviour{
 
         //Move the bot strategically to attack player
         void followPlayer(float x, float y, tileFeature** map_objects, int width, int height);
+        void followPlayerX(float x, float y, tileFeature** map_objects, int width, int height);
+        void followPlayerY(float x, float y, tileFeature** map_objects, int width, int height);
+
+        //Determins which direction to follow player
+        bool followX;
+        bool isAlreadyFollowing;
     
     public:
         HardBot(int id, float x, float y, int width, int height);   
