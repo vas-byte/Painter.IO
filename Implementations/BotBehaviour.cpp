@@ -35,17 +35,22 @@ void BotBehaviour::reset_direction(){
 //Sets initial direction of bot movement based on which direction has the longest distance
 //To edge of map
 void BotBehaviour::set_initial_direction(float x, float y, int width, int height){
+
+  //Calculate distance to edges of map (top, bottom, left, right)
   int length_left = x;
   int length_right = width - x;
   int length_up = y;
   int length_down = height - y;
 
+  //Calculates horizontal distance to edge, and compares distance to the left & right of the map
   int hoz_space = length_left > length_right ? length_left : length_right;
   bool left_longer = length_left > length_right ? true : false;
 
+  //Calculates vertical distance, and compares distance to the top & bottom of the map
   int vert_space = length_up > length_down ? length_up : length_down;
   bool up_longer = length_up > length_down ? true : false;
 
+  //Sets the bot in the direction of the longest distance to edge of map 
   if (hoz_space > vert_space) {
     if (left_longer)
       direction = movement::left;

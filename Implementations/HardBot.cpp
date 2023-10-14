@@ -100,7 +100,7 @@ void HardBot::followPlayerX(float x, float y, tileFeature** map_objects, int num
     //Determine what speed to move based on distance
     float spd = 0;
     int xDelta = (x - get_x());
-
+    
     if(xDelta > 150){
         isAlreadyFollowing = false;
     } else if(xDelta  > 75){

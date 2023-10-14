@@ -5,14 +5,31 @@
 #include "../Headers/Object.h"
 
 Person::Person(int id, float x, float y){
+    //Load sprite texture
     texture.loadFromFile("Assets/Individual Animations/Handgun1.png");
+
+    //Set sprite texture for player
     sprite.setTexture(texture);
+
+    //Set origin for sprite translations
     sprite.setOrigin(sf::Vector2f(24.f, 24.f));
+
+    //Set starting position of bot/player
     sprite.setPosition(x,y);
+
+    //Give player starting pistol
     gun_inventory[primary] = Gun(true, pistol, id);
+
+    //Start player with 100 health
     health = 100;
+
+    //Selected gun is primary (starting pistol is 1st element of array)
     selectedGun = primary;
+
+    //Player has not collided with an object yet, so this is initialized
     isCollided = false;
+
+    //Player is initialized without secondary weapon
     hasSecondary = false;
 };
 
@@ -209,9 +226,11 @@ bool Person::checkFutureCollision(movement::Direction direction, tileFeature** m
         return true;
       }
 
-    //Otherwise check if player will collide with a non "passthrough" object
+  
   }  
 
+  //Check if player colldied with another wall (can be in the process of
+  //moving away from the barrier above)
   for (int i = 0; i < num_objs; i++) {
 
     if (detectPlayerCollision(map_objects[i])) {
@@ -328,9 +347,12 @@ bool Person::isDead(){
     return false;
 }
 
+//Updates player health (trigged by health pickup)
 void Person::updateHealth(int health){
   this->health += health;
   if(this->health > 100) this->health = 100;
+
+  //Increases opacity (to show user higher health)
   sprite.setColor(sf::Color(255,255,255,50+this->health*2));
 }
 
