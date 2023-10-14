@@ -24,6 +24,11 @@ void HardBot::move_bot(tileFeature** map_objects, int width, int height, Person*
         followPlayer(human->get_x(), human->get_y(), map_objects, width, height);
         return;
     }
+
+    //If close to player move bot away
+    if(xDist < 10 && yDist < 10){
+        move_away(map_objects, human->get_x(),human->get_y(),width,height);
+    }
     
     roam(map_objects, width, height);
 }

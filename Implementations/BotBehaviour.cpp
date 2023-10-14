@@ -140,3 +140,14 @@ void BotBehaviour::gun_swap(){
     selectedGun = gun_inventory[secondary].get_ammo() == 0 ? primary : secondary;
   }
 }
+
+void BotBehaviour::move_away(tileFeature** map_objects, float x, float y, int width, int height){
+  //Change direcion if collided
+  if(!isCollided){
+   if(x - get_x() > 0) move(movement::left, map_objects, width, height); 
+   else move(movement::right, map_objects, width, height);
+  } else {
+    if(y - get_y() > 0) move(movement::up, map_objects, width, height); 
+    else move(movement::down, map_objects, width, height);
+  }
+}

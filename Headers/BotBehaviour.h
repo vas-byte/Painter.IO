@@ -36,6 +36,10 @@ class BotBehaviour : public Person{
 
         //Swap active gun if a better option is available or out of ammo
         void gun_swap();
+        
+
+        //Bot moves away to reduce chance of collision
+        void move_away(tileFeature** map_objects, float x, float y, int width, int heigh);
 
     public:
 
