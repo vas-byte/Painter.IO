@@ -46,7 +46,7 @@ leak: main.cpp $(wildcard $(INCLUDE_PATH)/*.cpp)
 
 For every player action within the game, Painter.IO ensures optimized performance and response. 
 
-If a particular in-game element is not user-controlled — for example, _if it's a system-generated NPC_ — the game logic takes special care in determining its behavior and interactions.
+If a particular in-game element is not user-controlled — for example, _if it's a system-generated NPC_ — the game logic takes  care in determining its behavior and interactions.
 
 
 
