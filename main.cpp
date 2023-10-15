@@ -159,7 +159,7 @@ int main() {
     bool needRender = true;
  
     if (isGameOver) {
-        window.clear(sf::Color(127, 103, 56));  // Clear with background color
+        window.clear(sf::Color(127, 103, 56));  
         window.draw(gameOverText);
         window.draw(restartButton);
         window.draw(restartButtonText);
