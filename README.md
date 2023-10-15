@@ -42,7 +42,7 @@ leak: main.cpp $(wildcard $(INCLUDE_PATH)/*.cpp)
 ```
 
 ...
-<img src="https://github.com/vas-byte/Painter.IO/blob/49c5247586205f34c05b9201d8b917b0742f50e8/Assets/transparent.png" align="left" height="220px" hspace="20px" vspace="5px">
+<img src="https://github.com/vas-byte/Painter.IO/blob/49c5247586205f34c05b9201d8b917b0742f50e8/Assets/transparent.png" align="left" height="220px" hspace="20px" vspace="10px">
 
 For every player action within the game, Painter.IO ensures optimized performance and response. 
 
