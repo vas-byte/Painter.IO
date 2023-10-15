@@ -112,3 +112,11 @@ void Player::render(sf::RenderWindow& app, int width, int height, tileFeature** 
       
   }
 }
+
+void Player::setPosition(const sf::Vector2f& position) {
+    sprite.setPosition(position); 
+}
+
+void Player::setHealth(int health) {
+    this->health = health;
+}

@@ -259,10 +259,22 @@ void Game::render_bots(sf::RenderWindow &app){
   }
 }
 
+int Game::getHumanPlayerHealth() const {
+  return human->getHealth();
+}
+
 //Moves the bots after each frame
 void Game::move_bots(){
   for(int i = 0; i < 2; i++){
     bots[i]->move_bot(map_objects,num_features,width,height,human,bots,numBots);
     bots[i]->collectObject(collectables,num_collectables,collectable_ammo,collectable_health,collectable_guns);
   }
+}
+
+void Game::reset() {
+    sf::Vector2f initialPosition = generate_position(); 
+    const int maxHealth = 100;  
+
+    human->setPosition(initialPosition);
+    human->setHealth(maxHealth);
 }

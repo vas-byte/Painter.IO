@@ -29,14 +29,15 @@ class Player : public Person{
     public:
         Player(int width, int height, float x, float y, int id);
         Player();
-
+        int getHealth() const { return health; }
         //Methods used to display HUD stuff
         void showHealth(sf::RenderWindow& app, int width, int height);
         void showAmmo(sf::RenderWindow& app, int width, int height);
         void showGun(sf::RenderWindow& app, int width, int height);
         void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots);
         
-     
+        void setPosition(const sf::Vector2f& position);
+        void setHealth(int health);
 };
 
 #endif

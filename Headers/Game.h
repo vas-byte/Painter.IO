@@ -51,6 +51,7 @@ class Game{
         //Frame properties (resolution)
         int get_width();
         int get_height();
+        void reset();   
 
         //in game object properties
         int generate_id();
@@ -73,7 +74,9 @@ class Game{
         //Bot functionality
         void render_bots(sf::RenderWindow &app);
         void move_bots();
-       
+
+        int getHumanPlayerHealth() const;
+
 };
 
 #endif
