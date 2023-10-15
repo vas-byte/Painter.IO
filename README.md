@@ -49,10 +49,12 @@ For every player action within the game, Painter.IO ensures optimized performanc
 If a particular in-game element is not user-controlled — for example, _if it's a system-generated NPC_ — the game logic takes special care in determining its behavior and interactions.
 
 
+
 <div style="clear: both;"></div>
 
 
 <br><br>
+
 
 ---
 
