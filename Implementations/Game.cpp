@@ -290,13 +290,11 @@ void Game::reset() {
 
   //Reset game collectables
   for(int i = 0; i < num_collectables; i++){
-    std::cout << i << std::endl;
     delete collectables[i];
   }
 
   //Reset bots
   for(int i = 0; i < numBots; i++){
-    std::cout << i << std::endl;
     delete bots[i];
   }
 
