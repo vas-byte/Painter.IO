@@ -40,7 +40,7 @@ Game::Game() {
 
 
   //load collectable items
-  collectables = new Collectable*[12];
+  collectables = new Collectable*[16];
   load_collectables();
 
   // Load "human player" into game
@@ -49,13 +49,8 @@ Game::Game() {
   humanInit = true;
  
   //Load boats into game
-  bots = new BotBehaviour*[2];
-  sf::Vector2f bot_pos = generate_position();
-  bots[0] = new HardBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
-  numBots = 1;
-  sf::Vector2f bot_pos2 = generate_position();
-  bots[1] = new HardBot(generate_id(), bot_pos2.x, bot_pos2.y, width, height);
-  numBots = 2;
+  bots = new BotBehaviour*[10];
+  load_bots();
 }
 
 // Default destructor for game
@@ -80,7 +75,7 @@ Game::~Game() {
   delete map_objects;
   delete collectables;
   delete bots;
-  
+  delete human;
 }
 
 //Load map features (wall tiles) into array
@@ -101,6 +96,59 @@ void Game::load_features() {
       }
 
     }
+  }
+}
+
+//Load bots into game
+void Game::load_bots(){
+  
+  //Init 7 hard bots
+  for(int i = 0; i < 7; i++){
+    sf::Vector2f bot_pos = generate_position();
+    bots[i] = new HardBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
+    numBots++;
+  }
+
+  //Init 3 easy bots
+  for(int i = 0; i < 3; i++){
+    sf::Vector2f bot_pos = generate_position();
+    bots[7 + i] = new EasyBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
+    numBots++;
+  }
+
+}
+
+//Load collectable objects into game
+void Game::load_collectables(){
+
+  //Generate random health collectables
+  for(int i = 0; i < 4; i++){
+    sf::Vector2f pos = generate_position();
+    int id = generate_id();
+    Health* health = new Health(id, false, pos.x, pos.y);
+    collectables[i] = health;
+    collectable_health[id] = health;
+    num_collectables++;
+  }
+
+  //Generate random ammo collectables
+  for(int i = 0; i < 8; i++){
+    sf::Vector2f pos = generate_position();
+    int id = generate_id();
+    Ammo* ammo = new Ammo(id, false, pos.x, pos.y);
+    collectables[4 + i] = ammo;
+    collectable_ammo[id] = ammo;
+    num_collectables++;
+  }
+
+  //Generate random gun collectables
+  for(int i = 0; i < 4; i++){
+    sf::Vector2f pos = generate_position();
+    int id = generate_id();
+    Gun* gun = new Gun(id, false, rapid, pos.x, pos.y);
+    collectables[12 + i] = gun;
+    collectable_guns[id] = gun;
+    num_collectables++;
   }
 }
 
@@ -166,40 +214,6 @@ sf::Vector2f Game::generate_position(){
 
 };
 
-//Load collectable objects into game
-void Game::load_collectables(){
-
-  //Generate random health collectables
-  for(int i = 0; i < 4; i++){
-    sf::Vector2f pos = generate_position();
-    int id = generate_id();
-    Health* health = new Health(id, false, pos.x, pos.y);
-    collectables[i] = health;
-    collectable_health[id] = health;
-    num_collectables++;
-  }
-
-  //Generate random ammo collectables
-  for(int i = 0; i < 4; i++){
-    sf::Vector2f pos = generate_position();
-    int id = generate_id();
-    Ammo* ammo = new Ammo(id, false, pos.x, pos.y);
-    collectables[4 + i] = ammo;
-    collectable_ammo[id] = ammo;
-    num_collectables++;
-  }
-
-  //Generate random gun collectables
-  for(int i = 0; i < 4; i++){
-    sf::Vector2f pos = generate_position();
-    int id = generate_id();
-    Gun* gun = new Gun(id, false, rapid, pos.x, pos.y);
-    collectables[8 + i] = gun;
-    collectable_guns[id] = gun;
-    num_collectables++;
-  }
-}
-
 // Returns display size
 int Game::get_width() { return width; }
 int Game::get_height() { return height; }
@@ -235,7 +249,7 @@ void Game::movePlayer(movement::Direction direction) {
 
 //Show collectable objects
 void Game::render_objects(sf::RenderWindow &app){
-  for(int i = 0; i < 12; i++){
+  for(int i = 0; i < num_collectables; i++){
     if(!collectables[i]->get_collected_status())
       collectables[i]->render(app);
   }
@@ -254,7 +268,7 @@ void Game::swap_gun(){
 
 //Shows bots on screen
 void Game::render_bots(sf::RenderWindow &app){
-  for(int i = 0; i < 2; i++){
+  for(int i = 0; i < numBots; i++){
     bots[i]->render(app, width, height, map_objects, num_features, human, bots, numBots);
   }
 }
@@ -265,16 +279,53 @@ int Game::getHumanPlayerHealth() const {
 
 //Moves the bots after each frame
 void Game::move_bots(){
-  for(int i = 0; i < 2; i++){
+  for(int i = 0; i < numBots; i++){
     bots[i]->move_bot(map_objects,num_features,width,height,human,bots,numBots);
     bots[i]->collectObject(collectables,num_collectables,collectable_ammo,collectable_health,collectable_guns);
   }
 }
 
+//Resets game
 void Game::reset() {
-    sf::Vector2f initialPosition = generate_position(); 
-    const int maxHealth = 100;  
 
-    human->setPosition(initialPosition);
-    human->setHealth(maxHealth);
+  //Reset game collectables
+  for(int i = 0; i < num_collectables; i++){
+    std::cout << i << std::endl;
+    delete collectables[i];
+  }
+
+  //Reset bots
+  for(int i = 0; i < numBots; i++){
+    std::cout << i << std::endl;
+    delete bots[i];
+  }
+
+  //Reset number of bots and collectables
+  numBots = 0;
+  num_collectables = 0;
+
+  //Reset human Object
+  delete human;
+  humanInit = false;
+
+  //Create new human object
+  sf::Vector2f player_pos = generate_position();
+  human = new Player(width, height, player_pos.x, player_pos.y, generate_id());
+  humanInit = true;
+
+  //Load collectables into collectables array
+  load_collectables();
+
+  //Load new bot objects into bots array
+  load_bots();
+}
+
+//checks if all bots are dead
+bool Game::all_bots_dead(){
+  for(int i = 0; i < numBots; i++)
+    if(bots[i]->get_health() > 0){
+      return false;
+    }
+
+    return true;
 }

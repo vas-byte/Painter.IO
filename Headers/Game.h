@@ -30,6 +30,7 @@ class Game{
         std::map<int,Health*> collectable_health;
         void load_features();
         void load_collectables();
+        void load_bots();
         const int num_features = 91;
         int num_collectables;
 
@@ -74,6 +75,7 @@ class Game{
         //Bot functionality
         void render_bots(sf::RenderWindow &app);
         void move_bots();
+        bool all_bots_dead();
 
         int getHumanPlayerHealth() const;
 

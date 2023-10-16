@@ -97,6 +97,11 @@ void BotBehaviour::render(sf::RenderWindow& app, int width, int height, tileFeat
       if(bots[j]->get_id() == id)
         continue;
 
+      //Check bot is not dead
+      if(bots[j]->get_health() <= 0){
+        continue;
+      }
+
       //Check if collided with bots
       if(bullets.at(i)->checkCollision(bots[j])){
 

@@ -81,6 +81,11 @@ void Player::render(sf::RenderWindow& app, int width, int height, tileFeature** 
 
     //Check if collided with bots
     for(int j = 0; j < numBots; j++){
+     
+      //check bot is not already dead
+      if(bots[j]->get_health() <= 0){
+        continue;
+      }
 
       if(bullets.at(i)->checkCollision(bots[j])){
         //If So do not render & take damage
@@ -113,10 +118,3 @@ void Player::render(sf::RenderWindow& app, int width, int height, tileFeature** 
   }
 }
 
-void Player::setPosition(const sf::Vector2f& position) {
-    sprite.setPosition(position); 
-}
-
-void Player::setHealth(int health) {
-    this->health = health;
-}

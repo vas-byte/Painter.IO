@@ -152,7 +152,7 @@ int main() {
      game.collectObject();
     }
 
-    if (game.getHumanPlayerHealth() <= 0) {
+    if (game.getHumanPlayerHealth() <= 0 || game.all_bots_dead()) {
         isGameOver = true;
     }
 
@@ -165,6 +165,7 @@ int main() {
         window.draw(restartButtonText);
         window.display();
         needRender = false;  
+        
         
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -207,7 +208,6 @@ int main() {
       window.display();
     } 
   }  
-  //something in Game destructor causes trace trap
-  
+    
   return 0;
 }

@@ -35,9 +35,6 @@ class Player : public Person{
         void showAmmo(sf::RenderWindow& app, int width, int height);
         void showGun(sf::RenderWindow& app, int width, int height);
         void render(sf::RenderWindow& app, int width, int height, tileFeature** map_objects, int num_objs, Person* human, BotBehaviour** bots, int numBots);
-        
-        void setPosition(const sf::Vector2f& position);
-        void setHealth(int health);
 };
 
 #endif
