@@ -49,7 +49,7 @@ Game::Game() {
   humanInit = true;
  
   //Load boats into game
-  bots = new BotBehaviour*[10];
+  bots = new BotBehaviour*[8];
   load_bots();
 }
 
@@ -102,17 +102,17 @@ void Game::load_features() {
 //Load bots into game
 void Game::load_bots(){
   
-  //Init 7 hard bots
-  for(int i = 0; i < 7; i++){
+  //Init 6 hard bots
+  for(int i = 0; i < 6; i++){
     sf::Vector2f bot_pos = generate_position();
     bots[i] = new HardBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
     numBots++;
   }
 
-  //Init 3 easy bots
-  for(int i = 0; i < 3; i++){
+  //Init 2 easy bots
+  for(int i = 0; i < 2; i++){
     sf::Vector2f bot_pos = generate_position();
-    bots[7 + i] = new EasyBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
+    bots[6 + i] = new EasyBot(generate_id(), bot_pos.x, bot_pos.y, width, height);
     numBots++;
   }
 
