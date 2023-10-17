@@ -9,6 +9,7 @@ Dive into the colorful world of paintball, where players can buy equipment, enga
 ## Table of Contents
 - [Features](#features)
 - [Installation](#installation)
+- [Documentation](#documentation)
 - [Feedback](#feedback)
 
 ---
@@ -48,19 +49,23 @@ For every player action within the game, Painter.IO ensures optimized performanc
 
 If a particular in-game element is not user-controlled — for example, _if it's a system-generated NPC_ — the game logic takes  care in determining its behavior and interactions.
 
-
-
 <div style="clear: both;"></div>
 
 
 <br><br>
 
+---
+
+## Documentation
+
+For greater documentation and unit testing, follow the [GitBook](https://painter-io.gitbook.io/painter.io/).
 
 ---
 
-
 ## Feedback
-Not applicable as the game is under development.
+We love feedback, please if you have any suggestions message either [@Vas-Byte](https://github.com/vas-byte) or [@maxjtwelftree](https://github.com/maxjtwelftree).  
+
+Otherwise feel free to open an [issue](https://github.com/vas-byte/Painter.IO/issues).
 
 ---
 
