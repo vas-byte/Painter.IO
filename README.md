@@ -4,6 +4,8 @@ Experience an action packed game with Painter.IO.
 
 Dive into the colorful world of paintball, where players can buy equipment, engage in battles and strategically build their inventory to beat opponents.
 
+See how the game is run [here](https://drive.google.com/file/d/1-R-e-zD9XOCG4sWYoswjLc7gZO8wgDJC/view?usp=share_link).
+
 ---
 
 ## Table of Contents
