@@ -16,3 +16,7 @@ run: main.cpp $(wildcard $(INCLUDE_PATH)/*.cpp)
 leak: main.cpp $(wildcard $(INCLUDE_PATH)/*.cpp)
 	g++ -g3 $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) main.cpp Implementations/HardBot.cpp Implementations/BotBehaviour.cpp Implementations/Ammo.cpp Implementations/Bullet.cpp Implementations/Collectable.cpp Implementations/Common.cpp Implementations/EasyBot.cpp Implementations/Game.cpp Implementations/Gun.cpp Implementations/Health.cpp Implementations/Object.cpp Implementations/Person.cpp Implementations/Player.cpp Implementations/tileFeature.cpp Implementations/tileMap.cpp -o painter.IO
 	leaks --atExit -- ./painter.IO
+
+test: Tests/tests.cpp $(wildcard $(INCLUDE_PATH)/*.cpp)
+	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) Tests/tests.cpp Implementations/HardBot.cpp Implementations/BotBehaviour.cpp Implementations/Ammo.cpp Implementations/Bullet.cpp Implementations/Collectable.cpp Implementations/Common.cpp Implementations/EasyBot.cpp Implementations/Game.cpp Implementations/Gun.cpp Implementations/Health.cpp Implementations/Object.cpp Implementations/Person.cpp Implementations/Player.cpp Implementations/tileFeature.cpp Implementations/tileMap.cpp -o test
+	./test

@@ -28,7 +28,7 @@ int main() {
 
     for (int i = 1; i <= 100; i++) {
         sf::Texture texture;
-        if(!texture.loadFromFile("Assets/download (" + std::to_string(i) + ").png")) {
+        if(!texture.loadFromFile("Assets/GIF Frames/download (" + std::to_string(i) + ").png")) {
         std::cerr << "Failed to load frame " << i << std::endl;
         } else {
             gifFrames.push_back(texture);
